@@ -1,4 +1,4 @@
 LeagueTheory
 ============
 
-League of Legends theory crafting
+League of Legends Theory Crafting
