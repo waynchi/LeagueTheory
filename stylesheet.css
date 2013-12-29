@@ -58,8 +58,24 @@ td {
 	width: 100px;
 	background-color: #D9E4FA;
 	border-radius: 6px;
-	box-shadow: 0px 0px 3px #787878;
+	/* box-shadow: 0px 0px 5px #003091 */;
 	text-align: center;
+	padding: 0 0 0 0;
+}
+
+.champid {
+	height: 30px;
+	padding-bottom: 10px;
+	padding-top: 0px;
+	background-color: white;
+	vertical-align: top;
+}
+
+img {
+	height: 100px;
+	width: 100px;
+	border-radius: 6px;
+	box-shadow: 0px 0px 5px black;
 }
 
 #footer {
