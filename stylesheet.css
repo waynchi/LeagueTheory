@@ -45,6 +45,7 @@ a:visited {
 
 table {
 	position: relative;
+	inline-block;
 	left: 5px;
 }
 
@@ -53,13 +54,14 @@ th {
 	padding-bottom: 10px;
 }
 
-td {
+.dynamic{
 	height: 100px;
 	width: 100px;
 	background-color: #D9E4FA;
 	border-radius: 6px;
 	/* box-shadow: 0px 0px 5px #003091 */;
 	text-align: center;
+	display: inline-block;
 	padding: 0 0 0 0;
 }
 
