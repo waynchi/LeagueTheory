@@ -4,6 +4,8 @@ body {
 	font-family: calibri, serif;
 	padding: 0;
 	margin: 0;
+	/*min-width: 1000px;*/
+	position: absolute;
 }
 
 a:hover {
@@ -34,19 +36,19 @@ a:visited {
 	padding: 20px 0 5px 0;
 	text-align: center;
 	font-weight: bold;
-	margin: 0 -4% 0 -4%;
+	margin: 0 -41px 0 -41px;
 }
 
 #container {
 	background-color: #FFFFFF;
-	margin: 0 9% 0 9%;
-	padding: 0 3% 3% 3%;
+	margin: 0 121px 0 121px;
+	padding: 0 41px 41px 41px;
+	/*min-width: 1025px;*/
 }
 
 table {
 	position: relative;
-	inline-block;
-	left: 5px;
+	left: 11px;
 }
 
 th {
