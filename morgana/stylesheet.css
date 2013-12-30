@@ -4,6 +4,7 @@ body {
 	font-family: calibri, serif;
 	padding: 0;
 	margin: 0;
+	min-width: 1347px;
 }
 
 a:hover {
@@ -34,14 +35,15 @@ a:visited {
 	padding: 20px 0 5px 0;
 	text-align: center;
 	font-weight: bold;
-	margin: 0 -4% 0 -4%;
+	margin: 0 -41px 0 -41px;
 }
 
 #container {
 	background-color: #FFFFFF;
 	margin: 0 9% 0 9%;
-	padding: 0 3% 3% 3%;
+	padding: 0 41px 41px 41px;
 	height: 1000px;
+	min-width: 1025px;
 }
 
 #footer {
