@@ -4,8 +4,6 @@ body {
 	font-family: calibri, serif;
 	padding: 0;
 	margin: 0;
-	min-width: 1000px;
-	position: absolute;
 }
 
 
@@ -42,19 +40,12 @@ a:visited {
 
 #container {
 	background-color: #FFFFFF;
-	margin: 0 121px 0 121px;
+	margin: 0 9% 0 9%;
 	padding: 0 41px 41px 41px;
-	min-width: 1025px;
-}
-
-table {
 	position: relative;
-	left: 11px;
 }
 
-th {
-	font-size: 40px;
-	padding-bottom: 10px;
+#champcontainer {
 }
 
 .dynamic{
@@ -62,17 +53,17 @@ th {
 	width: 100px;
 	background-color: #D9E4FA;
 	border-radius: 6px;
-	/* box-shadow: 0px 0px 5px #003091 */;
+	/* box-shadow: 0px 0px 5px #003091; */
+	margin: 5px;
 	text-align: center;
 	display: inline-block;
 	position: relative;
-	padding: 0 0 0 0;
+	padding: 0;
 }
 
 .champid {
 	height: 30px;
-	padding-bottom: 10px;
-	padding-top: 0px;
+	margin: 0 0 20px 0;
 	background-color: white;
 	vertical-align: top;
 }
