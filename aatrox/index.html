@@ -12,13 +12,13 @@
 		<a href="http://www.waynechi.com"><div ID="header">LeagueTheory</div></a>
 		<div ID="champinfo">
 			<img src="http://www.waynechi.com/pictures/Aatrox.png" style="display: inline-block;">
-			<div style="display:inline-block;width:300px;top:-30px;position:relative;">
-				<p style="font-size: 40px;margin:0;">Aatrox</p>
-				<p style="font-size: 30px;margin:0;">the Darkin Blade</p>
+			<div style="display:inline-block;width:300px;top:-30px;position:relative;margin-left:20px;">
+				<p style="font-size:40px;margin:0;"><b>Aatrox</b></p>
+				<p style="font-size:30px;margin:0;">the Darkin Blade</p>
 			</div>
 		</div>
 		<!-- http://www.webhostingtalk.com/showthread.php?t=1045871 -->
-		<div id="Tabs">
+		<div class="tabs">
 			<ul>
 				<li id="li_tab1" onclick="tab('tab1')"><a>Main</a></li>
 				<li id="li_tab2" onclick="tab('tab2')"><a>Masteries</a></li>
@@ -26,9 +26,29 @@
 				<li id="li_tab4" onclick="tab('tab4')"><a>Skills</a></li>
 				<li id="li_tab5" onclick="tab('tab5')"><a>Items</a></li>
 		</ul>
-			<div id="Content_Area">
+			<div id="Content_Area" class="active">
 				<div id="tab1">
-					<p>This is the text for tab 1.</p>
+					<table>
+						<tr>
+							<th>General</th>
+							<th>Offensive</th>
+							<th>Defensive</th>
+						</tr>
+						<tr>
+							<td>
+								<p>Health: 2000</p>
+								<p>Mana: 1000</p>
+							</td>
+							<td>
+								<p>Attack Damage: 100</p>
+								<p>Attack Speed: 1.000</p>
+							</td>
+							<td>
+								<p>Armor: 100</p>
+								<p>Magic Resist: 100</p>
+							</td>
+						</tr>
+					</table>
 				</div>
 				<div id="tab2" style="display: none;">
 					<p>This is the text for tab 2.</p>
