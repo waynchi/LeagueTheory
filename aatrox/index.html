@@ -10,10 +10,62 @@
 <body>
 	<div ID="container">
 		<a href="http://www.waynechi.com"><div ID="header">LeagueTheory</div></a>
+		<div ID="champinfo">
+			<img src="http://www.waynechi.com/pictures/Aatrox.png" style="display: inline-block;">
+			<div style="display:inline-block;width:300px;top:-30px;position:relative;">
+				<p style="font-size: 40px;margin:0;">Aatrox</p>
+				<p style="font-size: 30px;margin:0;">the Darkin Blade</p>
+			</div>
+		</div>
+		<!-- http://www.webhostingtalk.com/showthread.php?t=1045871 -->
+		<div id="Tabs">
+			<ul>
+				<li id="li_tab1" onclick="tab('tab1')"><a>Main</a></li>
+				<li id="li_tab2" onclick="tab('tab2')"><a>Masteries</a></li>
+				<li id="li_tab3" onclick="tab('tab3')"><a>Runes</a></li>
+				<li id="li_tab4" onclick="tab('tab4')"><a>Skills</a></li>
+				<li id="li_tab5" onclick="tab('tab5')"><a>Items</a></li>
+		</ul>
+			<div id="Content_Area">
+				<div id="tab1">
+					<p>This is the text for tab 1.</p>
+				</div>
+				<div id="tab2" style="display: none;">
+					<p>This is the text for tab 2.</p>
+				</div>
+				<div id="tab3" style="display: none;">
+					<p>This is the text for tab 3.</p>
+				</div>
+				<div id="tab4" style="display: none;">
+					<p>This is the text for tab 4.</p>
+				</div>
+				<div id="tab5" style="display: none;">
+					<p>This is the text for tab 5.</p>
+				</div>
+			</div> <!– End of Content_Area Div ->
+		</div> <!– End of Tabs Div –>
 	</div>
 	<div ID="footer">
 		Footer
 	</div>
 </body>
 
+<script type="text/javascript">
+function tab(tab) {
+document.getElementById('tab1').style.display = 'none';
+document.getElementById('tab2').style.display = 'none';
+document.getElementById('tab3').style.display = 'none';
+document.getElementById('tab4').style.display = 'none';
+document.getElementById('tab5').style.display = 'none';
+document.getElementById('li_tab1').setAttribute("class", "");
+document.getElementById('li_tab2').setAttribute("class", "");
+document.getElementById('li_tab3').setAttribute("class", "");
+document.getElementById('li_tab4').setAttribute("class", "");
+document.getElementById('li_tab5').setAttribute("class", "");
+document.getElementById(tab).style.display = 'block';
+document.getElementById('li_'+tab).setAttribute("class", "active");
+}
+</script>
+
 </html>
+
