@@ -75,6 +75,8 @@ display: block;
 margin-left: 6px;
 line-height: 24px;
 padding-left: 0px;
+padding-top: 7px;
+padding-bottom: 7px;
 background: #EDF1FA;
 z-index: 9999;
 border: 1px solid #ccc;
@@ -101,6 +103,8 @@ opacity: 0.6;
 
 .tabs ul li.active a {
 	opacity: 1;
+	border-bottom: 0px;
+	line-height: 25px;
 }
 
 .tabs #Content_Area { 
@@ -110,7 +114,7 @@ padding: 0 15px 0 15px;
 clear:both;
 line-height:19px;
 position: relative;
-top: 20px;
+top: 31px;
 z-index: 1;
 height: 150px;
 background: #EDF1FA;
