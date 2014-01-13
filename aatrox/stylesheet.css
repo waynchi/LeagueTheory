@@ -46,6 +46,98 @@ a:visited {
 	min-width: 1025px;
 }
 
+#champinfo {
+margin: 40px 16px 0 16px;
+}
+
+.tabs {
+text-align: center;
+}
+
+.tabs ul {
+padding: 0px;
+margin: 0px;
+margin-left: 10px;
+list-style-type: none;
+}
+
+.tabs ul li {
+display: inline-block;
+clear: none;
+float: left;
+height: 24px;
+}
+
+.tabs ul li a {
+position: relative;
+margin-top: 16px;
+display: block;
+margin-left: 6px;
+line-height: 24px;
+padding-left: 0px;
+padding-top: 7px;
+padding-bottom: 7px;
+background: #EDF1FA;
+z-index: 9999;
+border: 1px solid #ccc;
+opacity: 0.5;
+
+/* The following four lines are to make the top left and top right corners of each tab rounded. */
+-moz-border-radius-topleft: 4px;
+border-top-left-radius: 4px;
+-moz-border-radius-topright: 4px;
+border-top-right-radius: 4px;
+/* end of rounded borders */
+
+width: 192px;
+color: #000000;
+text-decoration: none;
+font-weight: bold;
+}
+
+.tabs ul li a:hover {
+cursor: pointer;
+opacity: 0.6;
+/* a very simple effect when hovering the mouse on tab */
+}
+
+.tabs ul li.active a {
+	opacity: 1;
+	border-bottom: 0px;
+	line-height: 25px;
+}
+
+.tabs #Content_Area { 
+/* this is the css class for the content displayed in each tab */
+margin: 0 15px 0 16px;
+padding: 0 15px 0 15px;
+clear:both;
+line-height:19px;
+position: relative;
+top: 31px;
+z-index: 1;
+height: 150px;
+background: #EDF1FA;
+border: 1px solid #ccc;
+}
+
+#tab1 table {
+  margin: 20px auto;
+	width: 900px;
+}
+
+#tab1 table tr th {
+	font-size: 20px;
+	width: 300px;
+}
+
+#tab1 table tr td {
+	text-align: left;
+	padding-left: 70px;
+}
+
+p { padding-left: 15px; }
+
 #footer {
 	height: 35px;
 	background-color: white;
