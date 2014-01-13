@@ -4,6 +4,8 @@
 
 <head>
 	<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="script.js"></script>
 	<title>League of Legends Theory Crafting</title>
 </head>
 
@@ -15,6 +17,30 @@
 			<div style="display:inline-block;width:300px;top:-30px;position:relative;margin-left:20px;">
 				<p style="font-size:40px;margin:0;"><b>Aatrox</b></p>
 				<p style="font-size:30px;margin:0;">the Darkin Blade</p>
+			</div>
+			<div style="display:inline-block;top:-30px;position:relative;font-size:20px">Champion Level: 
+			<form action=""style="display:inline-block">
+			<select name="aa" ID="champLevel" onchange="report(this.value)">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			<option value="13">13</option>
+			<option value="14">14</option>
+			<option value="15">15</option>
+			<option value="16">16</option>
+			<option value="17">17</option>
+			<option value="18">18</option>
+			</select>
+			</form>
 			</div>
 		</div>
 		<!-- http://www.webhostingtalk.com/showthread.php?t=1045871 -->
@@ -36,16 +62,16 @@
 						</tr>
 						<tr>
 							<td>
-								<p>Health: 2000</p>
-								<p>Mana: 1000</p>
+								<p ID="GenHealth">Health: 200</p>
+								<p ID="GenMana">Mana: 1000</p>
 							</td>
 							<td>
-								<p>Attack Damage: 100</p>
-								<p>Attack Speed: 1.000</p>
+								<p ID="OffAD">Attack Damage: 100</p>
+								<p ID="OffAS">Attack Speed: 1.000</p>
 							</td>
 							<td>
-								<p>Armor: 100</p>
-								<p>Magic Resist: 100</p>
+								<p ID="DefArmor">Armor: 100</p>
+								<p ID="DefMR">Magic Resist: 100</p>
 							</td>
 						</tr>
 					</table>
@@ -66,7 +92,7 @@
 		</div> <!– End of Tabs Div –>
 	</div>
 	<div ID="footer">
-		Footer
+		All Rights Reserved.
 	</div>
 </body>
 
