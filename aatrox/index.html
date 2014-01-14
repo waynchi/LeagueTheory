@@ -12,12 +12,14 @@
 <body>
 	<div ID="container">
 		<a href="http://www.waynechi.com"><div ID="header">LeagueTheory</div></a>
+		<!-- Champion Information -->
 		<div ID="champinfo">
-			<img src="http://www.waynechi.com/pictures/Aatrox.png" style="display: inline-block;">
+			<img src="http://www.waynechi.com/pictures/Aatrox.png" style="display: inline-block;box-shadow:0px 0px 3px black;">
 			<div style="display:inline-block;width:300px;top:-30px;position:relative;margin-left:35px;">
 				<p style="font-size:40px;margin:0;"><b>Aatrox</b></p>
 				<p style="font-size:30px;margin:0;">the Darkin Blade</p>
 			</div>
+			<!-- Champion Level Drop-down List -->
 			<div style="display:inline-block;top:-30px;position:relative;font-size:20px">Champion Level: 
 				<form action=""style="display:inline-block">
 					<select name="aa" ID="champLevel" onchange="updateStats(this.value)">
@@ -44,6 +46,7 @@
 			</div>
 		</div>
 		<!-- http://www.webhostingtalk.com/showthread.php?t=1045871 -->
+		<!-- Tabs -->
 		<div class="tabs">
 			<ul>
 				<li id="li_tab1" onclick="tab('tab1')"><a>Main</a></li>
@@ -56,40 +59,79 @@
 				<div id="tab1">
 					<table>
 						<tr>
-							<th	colspan="2";>General</th>
-							<th	colspan="2";>Offensive</th>
-							<th	colspan="2";>Defensive</th>
+							<th	colspan="3";>Offensive</th>
+							<th	colspan="3";>Defensive</th>
+							<th	colspan="3";>Magical</th>
 						</tr>
 						<tr valign="top">
 							<td> 
-								<p>Health</p>
-								<p>Health Regen / 5</p>
-								<p>Mana</p>
-								<p>Mana Regen / 5</p>
+								<p>Armor Penetration</p>
+								<p>Attack Damage</p>
+								<p>Attack Speed</p>
+								<p>Critical Strike Chance</p>
+								<p>Critical Strike Damage</p>
+								<p>Life Steal</p>
 								<p>Movement Speed</p>
 							</td>
 							<td>
-								<p ID="GenHealth">395</p>
-								<p ID="GenHP5">5.75</p>
-								<p ID="GenMana">N/A</p>
-								<p ID="GenMP5">N/A</p>
-								<p ID="GenMS">345</p>
+								<p ID="ArmorPen">395</p>
+								<p ID="AD">5.75</p>
+								<p ID="AS">N/A</p>
+								<p ID="CritChance">N/A</p>
+								<p ID="CritDamage">N/A</p>
+								<p ID="LifeSteal">345</p>
+								<p ID="MoveSpeed">N/A</p>
 							</td>
-							<td>
-								<p>Attack Damage</p>
-								<p>Attack Speed</p>
-							</td>
-							<td>
-								<p ID="OffAD">55</p>
-								<p ID="OffAS">0.651</p>
+							<td class="bonusStats">
+								<p ID="ArmorPenBonus">(+0)</p>
+								<p ID="ADBonus">(+0)</p>
+								<p ID="ASBonus">N/A</p>
+								<p ID="CritChanceBonus">N/A</p>
+								<p ID="CritDamageBonus">(+0)</p>
+								<p ID="LifeStealBonus">(+0)</p>
+								<p ID="MoveSpeedBonus">(+0)</p>
 							</td>
 							<td>
 								<p>Armor</p>
-								<p>Magic Resist</p>
+								<p>Health</p>
+								<p>Health Regeneration / 5</p>
+								<p>Magic Resistance</p>
 							</td>
 							<td>
-								<p ID="DefArmor">14</p>
-								<p ID="DefMR">30</p>
+								<p ID="Armor">55</p>
+								<p ID="HP">0.651</p>
+								<p ID="HP5">N/A</p>
+								<p ID="MR">N/A</p>
+							</td>
+							<td class="bonusStats">
+								<p ID="ArmorBonus">(+0)</p>
+								<p ID="HPBonus">(+0)</p>
+								<p ID="HP5Bonus">N/A</p>
+								<p ID="MRBonus">N/A</p>
+							</td>
+							<td>
+								<p>Ability Power</p>
+								<p>Cooldown Reduction</p>
+								<p>Magic Penetration</p>
+								<p>Mana</p>
+								<p>Mana Regeneration / 5</p>
+								<p>Spell Vamp</p>
+							</td>
+							<td>
+								<p ID="AP">0</p>
+								<p ID="CDR">0</p>
+								<p ID="MagicPen">30</p>
+								<p ID="MP">30</p>
+								<p ID="MP5">30</p>
+								<p ID="SpellVamp">30</p>
+							</td>
+							<td class="bonusStats">
+								<p ID="APBonus">(+0)</p>
+								<p ID="CDRBonus">(+0)</p>
+								<p ID="MagicPenBonus">(+0)</p>
+								<p ID="MPBonus">(+0)</p>
+								<p ID="MP5Bonus">(+0)</p>
+								<p ID="SpellVampBonus">(+0)</p>
 							</td>
 						</tr>
 					</table>
@@ -104,13 +146,47 @@
 					<p>This is the text for tab 4.</p>
 				</div>
 				<div id="tab5" style="display: none;">
-					<p>This is the text for tab 5.</p>
+					<table>
+						<tr>
+							<td><form>Item 1 <select id="item1" onchange="updateItem(this.value, 1)">
+								<option>None</option>
+								<option>Long Sword</option>
+								<option>B.F. Sword</option>
+							</select></form></td>
+							<td><form>Item 2 <select id="item2" onchange="updateItem(this.value, 2)">
+								<option>None</option>
+								<option>Long Sword</option>
+								<option>B.F. Sword</option>
+							</select></form></td>
+							<td><form>Item 3 <select id="item3" onchange="updateItem(this.value, 3)">
+								<option>None</option>
+								<option>Long Sword</option>
+								<option>B.F. Sword</option>
+							</select></form></td>
+							<td><form>Item 4 <select id="item4" onchange="updateItem(this.value, 4)">
+								<option>None</option>
+								<option>Long Sword</option>
+								<option>B.F. Sword</option>
+							</select></form></td>
+							<td><form>Item 5 <select id="item5" onchange="updateItem(this.value, 5)">
+								<option>None</option>
+								<option>Long Sword</option>
+								<option>B.F. Sword</option>
+							</select></form></td>
+							<td><form>Item 6 <select id="item6" onchange="updateItem(this.value, 6)">
+								<option>None</option>
+								<option>Long Sword</option>
+								<option>B.F. Sword</option>
+							</select></form></td>
+						</tr>
+					</table>
+					<div id="itemResetButton" onclick="resetItems()">Reset</div>
 				</div>
 			</div> <!– End of Content_Area Div ->
 		</div> <!– End of Tabs Div –>
 	</div>
 	<div ID="footer">
-		All Rights Reserved.
+		By Wayne Chi and Richard Sun
 	</div>
 </body>
 
