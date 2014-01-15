@@ -4,14 +4,22 @@ $(document).ready(function() {
 });
 
 itemList = [0,0,0,0,0,0];
+champStats = [];
+var champBaseStats = {
+	HP: 380,
+	HP_l: 80,
+	HP5: 5.5,
+	HP5_l: 0.6,
+	MP: 250,
+	MP_l: 50,
+	
+};
 
 function updateStats(champLevel) {
-	// Create itemList
-
 	// Calculate stats
-	var champHealth = 380 + 80 * (champLevel-1);
+	var champHealth = champBaseStats.HP + champBaseStats.HP_l * (champLevel-1);
 
-	var champHP5 = 5.5 + 0.6 * (champLevel-1);
+	var champHP5 = champBaseStats.HP5 + champBaseStats.HP5_l * (champLevel-1);
 
 	var champMP = 250 + 50 * (champLevel-1);
 	
@@ -19,11 +27,7 @@ function updateStats(champLevel) {
 	
 	var champAD = 50 + 3 * (champLevel-1);
 	var baseAD = champAD;
-	for (var i = 0; i < itemList.length; i++)
-	{
-		if (itemList[i].hasOwnProperty("addAD"))
-			champAD = itemList[i].addAD(champAD);
-	}
+
 	var bonusAD = champAD - baseAD;
 	
 	var champAS = 0.668 * (1 + 0.02 * (champLevel-1));
@@ -74,6 +78,16 @@ function updateStats(champLevel) {
 	$('#MoveSpeed').text(champMS);
 }
 
+function updateItemStats(stat, statname)
+{
+	statname = "add" + statname;
+	for (var i = 0; i < itemList.length; i++)
+	{
+		if (itemList[i].hasOwnProperty(statname))
+			champAD = itemList[i].addAD(champAD);
+	}
+}
+
 function createItem(name)
 {
 	switch(name) {
@@ -117,7 +131,7 @@ function createItem(name)
 		}
 }
 
-function updateItem(item, num) {
+function updateItemList(item, num) {
 	itemList[num-1] = createItem(item);
 	var levelList = document.getElementById("champLevel");
 	var champLevel = levelList.options[levelList.selectedIndex].text;
