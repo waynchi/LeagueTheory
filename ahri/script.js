@@ -3,8 +3,12 @@ $(document).ready(function() {
 	tab('tab1');
 });
 
-itemList = [0,0,0,0,0,0];
-champStats = [];
+itemList = [];
+for (var i = 0; i < 6; i++)
+{
+	itemList.push(createItem());
+}
+
 var champBaseStats = {
 	HP: 380,
 	HP_l: 80,
@@ -12,123 +16,167 @@ var champBaseStats = {
 	HP5_l: 0.6,
 	MP: 250,
 	MP_l: 50,
-	
+	MP5: 7,
+	MP5_l: 0.6,
+	AD: 50,
+	AD_l: 3,
+	AS: 0.668,
+	AS_l: 0.02, // percentage
+	Armor: 11,
+	Armor_l: 3.5,
+	MR: 30,
+	MR_l: 0,
+	MS: 330
+};
+
+var champ = {
+	ArmorPen: 0,
+	AD: 0,
+	AS: 0,
+	CritChance: 0,
+	CritDamange: 0,
+	LifeSteal: 0,
+	MS: 0,
+	Armor: 0,
+	HP: 0,
+	HP5: 0,
+	MR: 0,
+	AP: 0,
+	CDR: 0,
+	MagicPen: 0,
+	MP: 0,
+	MP5: 0,
+	SpellVamp: 0
 };
 
 function updateStats(champLevel) {
-	// Calculate stats
-	var champHealth = champBaseStats.HP + champBaseStats.HP_l * (champLevel-1);
-
-	var champHP5 = champBaseStats.HP5 + champBaseStats.HP5_l * (champLevel-1);
-
-	var champMP = 250 + 50 * (champLevel-1);
+	// Calculate stats based on level
+	champ.ArmorPen = 0;
+	champ.AD = champBaseStats.AD + champBaseStats.AD_l * champLevel;
+	champ.AS = champBaseStats.AS + champBaseStats.AS_l * champLevel;
+	champ.CritChance = 0;
+	champ.CritDamage = 0;
+	champ.LifeSteal = 0;
+	champ.MS = champBaseStats.MS;
+	champ.Armor = champBaseStats.Armor + champBaseStats.Armor_l * champLevel;
+	champ.HP = champBaseStats.HP + champBaseStats.HP_l * champLevel;
+	champ.HP5 = champBaseStats.HP5 + champBaseStats.HP5_l * champLevel;
+	champ.MR = champBaseStats.MR + champBaseStats.MR_l * champLevel;
+	champ.AP = 0;
+	champ.CDR = 0;
+	champ.MagicPen = 0;
+	champ.MP = champBaseStats.MP + champBaseStats.MP_l * (champLevel-1);
+	champ.MP5 = champBaseStats.MP5 + champBaseStats.MP5_l * (champLevel-1);
+	champ.SpellVamp = 0;
 	
-	var champMP5 = 7 + 0.6 * (champLevel-1);
+	// Create a copy of object champ
+	var champInitial = {
+		ArmorPen: champ.ArmorPen,
+		AD: champ.AD,
+		AS: champ.AS,
+		CritChance: champ.CritChance,
+		CritDamange: champ.Damage,
+		LifeSteal: champ.LifeSteal,
+		MS: champ.MS,
+		Armor: champ.Armor,
+		HP: champ.HP,
+		HP5: champ.HP5,
+		MR: champ.MR,
+		AP: champ.AP,
+		CDR: champ.CDR,
+		MagicPen: champ.MagicPen,
+		MP: champ.MP,
+		MP5: champ.MP5,
+		SpellVamp: champ.SpellVamp
+	};
 	
-	var champAD = 50 + 3 * (champLevel-1);
-	var baseAD = champAD;
-
-	var bonusAD = champAD - baseAD;
-	
-	var champAS = 0.668 * (1 + 0.02 * (champLevel-1));
-
-	var champAP = 0;
-	var baseAP = champAP;
-	for (var i = 0; i < itemList.length; i++)
-	{
-		if (itemList[i].hasOwnProperty("addAP"))
-			champAP = itemList[i].addAP(champAP);
+	// Add item bonuses to stats
+	for (var i = 0; i < 6; i++) {
+		itemList[i].addItemBonuses();
 	}
-	var bonusAP = champAP - baseAP;
-	
-	var champArmor = 11 + 3.5 * (champLevel-1);
 
-	var champMR = 30 + 0 * (champLevel-1);
+	// Update stats on page 
+	// UNFINISHED
+	var bonusArmorPen = (champ.ArmorPen - champInitial.ArmorPen)
 	
-	var champMS = 330;
-
-	// Update stats on page
-	$('#HP').text(champHealth);
+	var bonusHP = (champ.HP - champInitial.HP).toFixed(0);
+	$('#HPBonus').text('(+' + bonusHP + ')');
+	champ.HP = champ.HP.toFixed(0);
+	$('#HP').text(champ.HP);
 	
-	champHP5 = champHP5.toFixed(2);
-	$('#HP5').text(champHP5);
+	champ.HP5 = champ.HP5.toFixed(2);
+	$('#HP5').text(champ.HP5);
 	
-	$('#MP').text(champMP);
+	$('#MP').text(champ.MP);
 	
-	champMP5 = champMP5.toFixed(2);
-	$('#MP5').text(champMP5);
+	champ.MP5 = champ.MP5.toFixed(2);
+	$('#MP5').text(champ.MP5);
 	
-	champAD = champAD.toFixed(0);
+	champ.AD = champ.AD.toFixed(0);
+	var bonusAD = champ.AD - champInitial.AD;
 	bonusAD = bonusAD.toFixed(0);
-	$('#AD').text(champAD);
+	$('#AD').text(champ.AD);
 	$('#ADBonus').text('(+' + bonusAD + ')');
 	
-	champAS = champAS.toFixed(3);
-	$('#AS').text(champAS);
+	champ.AS = champ.AS.toFixed(3);
+	$('#AS').text(champ.AS);
 	
-	$('#AP').text(champAP);
+	var bonusAP = champ.AP - champInitial.AP;
+	$('#AP').text(champ.AP);
 	$('#APBonus').text('(+' + bonusAP + ')');
 	
-	champArmor = champArmor.toFixed(0);
-	$('#Armor').text(champArmor);
+	champ.Armor = champ.Armor.toFixed(0);
+	$('#Armor').text(champ.Armor);
 	
-	champMR = champMR.toFixed(0);
-	$('#MR').text(champMR);
+	champ.MR = champ.MR.toFixed(0);
+	$('#MR').text(champ.MR);
 	
-	$('#MoveSpeed').text(champMS);
+	$('#MoveSpeed').text(champ.MS);
 }
 
-function updateItemStats(stat, statname)
-{
-	statname = "add" + statname;
-	for (var i = 0; i < itemList.length; i++)
-	{
-		if (itemList[i].hasOwnProperty(statname))
-			champAD = itemList[i].addAD(champAD);
-	}
-}
-
-function createItem(name)
+function createItem(name) // UNFINISHED
 {
 	switch(name) {
 	// Amplifying Tome
 	case 'Amplifying Tome':
 		var amplifyingTome = new Object();
-		amplifyingTome.addAP = function (AP) {
-			return (AP + 20);
+		amplifyingTome.addItemBonuses = function() {
+			champ.AP += 20;
 		};
 		return amplifyingTome;
 		
 	// Ancient Coin
 	case 'Ancient Coin':
 		var ancientCoin = new Object();
-		ancientCoin.addHP5 = function (HP5) {
-			return (HP5 + 5);
-		};
-		ancientCoin.addMP5 = function (MP5) {
-			return (MP5 + 3);
+		ancientCoin.addItemBonuses = function() {
+			champ.HP5 += 5;
+			champ.MP5 += 3;
 		};
 		return ancientCoin;
 		
 	// B.F. Sword
 	case 'B.F. Sword':
 		var bfSword = new Object();
-		bfSword.addAD = function (AD) {
-			return (AD + 45);
+		bfSword.addItemBonuses = function() {
+			champ.AD += 45;
 		};
 		return bfSword;
 		
 	// Long Sword
 	case 'Long Sword':
 		var longSword = new Object();
-		longSword.addAD = function (AD) {
-			return (AD + 20);
+		longSword.addItemBonuses = function() {
+			champ.AD += 20;
 		};
 		return longSword;
 		
 	default:
-		return 0;
-		}
+		var empty = new Object();
+		empty.addItemBonuses = function() {
+			return;
+		};
+		return empty;
+	}
 }
 
 function updateItemList(item, num) {
@@ -139,7 +187,10 @@ function updateItemList(item, num) {
 }
 
 function resetItems() {
-	itemList = [0,0,0,0,0,0];
+	for (var i = 0; i < 6; i++)
+		itemList.pop();
+	for (var i = 0; i < 6; i++)
+		itemList.push(createItem());
 	$('#item1').val('None');
 	$('#item2').val('None');
 	$('#item3').val('None');
@@ -149,7 +200,6 @@ function resetItems() {
 	var levelList = document.getElementById("champLevel");
 	var champLevel = levelList.options[levelList.selectedIndex].text;
 	updateStats(champLevel);
-	
 }
 
 function tab(tab) {
@@ -157,12 +207,10 @@ document.getElementById('tab1').style.display = 'none';
 document.getElementById('tab2').style.display = 'none';
 document.getElementById('tab3').style.display = 'none';
 document.getElementById('tab4').style.display = 'none';
-document.getElementById('tab5').style.display = 'none';
 document.getElementById('li_tab1').setAttribute("class", "");
 document.getElementById('li_tab2').setAttribute("class", "");
 document.getElementById('li_tab3').setAttribute("class", "");
 document.getElementById('li_tab4').setAttribute("class", "");
-document.getElementById('li_tab5').setAttribute("class", "");
 document.getElementById(tab).style.display = 'block';
 document.getElementById('li_'+tab).setAttribute("class", "active");
 }
