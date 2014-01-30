@@ -253,8 +253,18 @@ function updateStats(champLevel) {
 function createItem(name) // UNFINISHED
 {
 	switch(name) {
+	
+	// Abyssal Scepter
+	case "Abyssal Scepter":
+		var abyssalScepter = new Object();
+		abyssalScepter.addItemBonuses = function() {
+			champ.AP += 70;
+			champ.MR += 45;
+		};
+		return abyssalScepter;
+	
 	// Amplifying Tome
-	case 'Amplifying Tome':
+	case "Amplifying Tome":
 		var amplifyingTome = new Object();
 		amplifyingTome.addItemBonuses = function() {
 			champ.AP += 20;
@@ -262,7 +272,7 @@ function createItem(name) // UNFINISHED
 		return amplifyingTome;
 		
 	// Ancient Coin
-	case 'Ancient Coin':
+	case "Ancient Coin":
 		var ancientCoin = new Object();
 		ancientCoin.addItemBonuses = function() {
 			champ.HP5 += 5;
@@ -270,29 +280,62 @@ function createItem(name) // UNFINISHED
 		};
 		return ancientCoin;
 		
+	// Avarice Blade
+	case "Avarice Blade":
+		var avariceBlade = new Object();
+		avariceBlade.addItemBonuses = function() {
+			champ.critChance += 10;
+		};
+		return avariceBlade;
+		
 	// B.F. Sword
-	case 'B.F. Sword':
+	case "B.F. Sword":
 		var bfSword = new Object();
 		bfSword.addItemBonuses = function() {
 			champ.AD += 45;
 		};
 		return bfSword;
 		
+	// Berserker's Greaves
+	case "Berserker's Greaves":
+		var berserkersGreaves = new Object();
+		berserkersGreaves.addItemBonuses = function() {
+			champ.ASbonus += 0.20;
+			champ.MS += 45;
+		};
+		return berserkersGreaves;
+		
 	// Blasting Wand
-	case 'Blasting Wand':
+	case "Blasting Wand":
 		var blastingWand = new Object();
 		blastingWand.addItemBonuses = function() {
 			champ.AP += 40;
 		};
 		return blastingWand;
 		
+	// Boots of Mobility
+	case "Boots of Mobility":
+		var bootsOfMobility = new Object();
+		bootsOfMobility.addItemBonuses = function() {
+			champ.MS += 45;
+		};
+		return bootsOfMobility;
+		
 	// Boots of Speed
-	case 'Boots of Speed':
+	case "Boots of Speed":
 		var bootsOfSpeed = new Object();
 		bootsOfSpeed.addItemBonuses = function() {
 			champ.MS += 25;
 		};
 		return bootsOfSpeed;
+		
+	// Boots of Swiftness
+	case "Boots of Swiftness":
+		var bootsOfSwiftness = new Object();
+		bootsOfSwiftness.addItemBonuses = function() {
+			champ.MS += 60;
+		};
+		return bootsOfSwiftness;
 		
 	// Brawler's Gloves
 	case "Brawler's Gloves":
@@ -302,8 +345,36 @@ function createItem(name) // UNFINISHED
 		};
 		return brawlersGloves;
 		
+	// The Brutalizer
+	case "The Brutalizer":
+		var theBrutalizer = new Object();
+		theBrutalizer.addItemBonuses = function() {
+			champ.AD += 25;
+			champ.CDR += 10; // UNIQUE
+			champ.ArmorPen += 10; // UNIQUE
+		};
+		return theBrutalizer;
+		
+	// Catalyst the Protector
+	case "Catalyst the Protector":
+		var catalystTheProtector = new Object();
+		catalystTheProtector.addItemBonuses = function() {
+			champ.HP += 200;
+			champ.MP += 300;
+		};
+		return catalystTheProtector;
+	
+	// Chalice of Harmony
+	case "Chalice of Harmony":
+		var chaliceOfHarmony = new Object();
+		chaliceOfHarmony.addItemBonuses = function() {
+			champ.MR += 25;
+			champ.MP5 += 7;
+		};
+		return chaliceOfHarmony;
+		
 	// Chain Vest
-	case 'Chain Vest':
+	case "Chain Vest":
 		var chainVest = new Object();
 		chainVest.addItemBonuses = function() {
 			champ.Armor += 40;
@@ -311,7 +382,7 @@ function createItem(name) // UNFINISHED
 		return chainVest;
 		
 	// Cloak of Agility
-	case 'Cloak of Agility':
+	case "Cloak of Agility":
 		var cloakOfAgility = new Object();
 		cloakOfAgility.addItemBonuses = function() {
 			champ.CritChance += 15;
@@ -319,7 +390,7 @@ function createItem(name) // UNFINISHED
 		return cloakOfAgility;
 		
 	// Cloth Armor
-	case 'Cloth Armor':
+	case "Cloth Armor":
 		var clothArmor = new Object();
 		clothArmor.addItemBonuses = function() {
 			champ.Armor += 15;
@@ -327,20 +398,488 @@ function createItem(name) // UNFINISHED
 		return clothArmor;
 		
 	// Dagger
-	case 'Dagger':
+	case "Dagger":
 		var dagger = new Object();
 		dagger.addItemBonuses = function() {
 			champ.ASbonus += 0.12;
 		};
 		return dagger;
 		
+	// Doran's Blade
+	case "Doran's Blade":
+		var doransBlade = new Object();
+		doransBlade.addItemBonuses = function() {
+			champ.HP += 80;
+			champ.AD += 10;
+		};
+		return dagger;
+		
+	// Doran's Ring
+	case "Doran's Ring":
+		var doransRing = new Object();
+		doransRing.addItemBonuses = function() {
+			champ.HP += 60;
+			champ.AP += 15;
+			champ.MP5 += 3;
+		};
+		return doransRing;
+		
+	// Doran's Shield
+	case "Doran's Shield":
+		var doransShield = new Object();
+		doransShield.addItemBonuses = function() {
+			champ.HP += 100;
+			champ.HP5 += 10;
+		};
+		return doransShield;
+		
+	// Faerie Charm
+	case "Faerie Charm":
+		var faerieCharm = new Object();
+		faerieCharm.addItemBonuses = function() {
+			champ.MP5 += 3;
+		};
+		return faerieCharm;
+		
+	// Fiendish Codex
+	case "Fiendish Codex":
+		var fiendishCodex = new Object();
+		fiendishCodex.addItemBonuses = function() {
+			champ.AP += 30;
+		};
+		return fiendishCodex;
+	
+	// Frostfang
+	case "Frostfang":
+		var frostfang = new Object();
+		frostfang.addItemBonuses = function() {
+			champ.AP += 20;
+			champ.MP5 += 7;
+		};
+		return frostfang;
+	
+	// Frozen Mallet
+	case "Frozen Mallet":
+		var frozenMallet = new Object();
+		frozenMallet.addItemBonuses = function() {
+			champ.AD += 30;
+			champ.HP += 700;
+		};
+		return frozenMallet;
+		
+	// Giant's Belt
+	case "Giant's Belt":
+		var giantsBelt = new Object();
+		giantsBelt.addItemBonuses = function() {
+			champ.HP += 380;
+		};
+		return giantsBelt;		
+
+	// Glacial Shroud
+	case "Glacial Shroud":
+		var glacialShroud = new Object();
+		glacialShroud.addItemBonuses = function() {
+			champ.MP += 300;
+			champ.Armor += 45;
+		};
+		return glacialShroud;	
+	
+	// Guardian Angel
+	case "Guardian Angel":
+		var guardianAngel = new Object();
+		guardianAngel.addItemBonuses = function() {
+			champ.Armor += 50;
+			champ.MR += 30;
+		};
+		return guardianAngel;	
+	
+	// Guardian's Horn
+	case "Guardian's Horn":
+		var guardiansHorn = new Object();
+		guardiansHorn.addItemBonuses = function() {
+			champ.HP += 180;
+			champ.HP5 += 12;
+		};
+		return guardiansHorn;	
+	
+	// Guinsoo's Rageblade
+	case "Guinsoo's Rageblade":
+		var guinsoosRageblade = new Object();
+		guinsoosRageblade.addItemBonuses = function() {
+			champ.AD += 30;
+			champ.AP += 40;
+		};
+		return guinsoosRageblade;	
+	
+	// Haunting Guise
+	case "Haunting Guise":
+		var hauntingGuise = new Object();
+		hauntingGuise.addItemBonuses = function() {
+			champ.HP += 200;
+			champ.AP += 25;
+		};
+		return hauntingGuise;	
+	
+	// Hexdrinker
+	case "Hexdrinker":
+		var hexdrinker = new Object();
+		hexdrinker.addItemBonuses = function() {
+			champ.AD += 25;
+			champ.MR += 25;
+		};
+		return hexdrinker;	
+	
+	// Hextech Revolver
+	case "Hextech Revolver":
+		var hextechRevolver = new Object();
+		hextechRevolver.addItemBonuses = function() {
+			champ.AP += 40;
+		};
+		return hextechRevolver;	
+		
+	// Hunter's Machete
+	case "Hunter's Machete":
+		var huntersMachete = new Object();
+		huntersMachete.addItemBonuses = function() {
+			// butcher, maim
+		};
+		return huntersMachete;
+		
+	// Infinity Edge
+	case "Infinity Edge":
+		var infinityEdge = new Object();
+		infinityEdge.addItemBonuses = function() {
+			champ.AD += 70;
+			champ.CritChance += 25;
+			champ.CritDamage += 50; // UNIQUE
+		};
+		return infinityEdge;
+	
+	// Ionian Boots of Lucidity
+	case "Ionian Boots of Lucidity":
+		var ionianBootsOfLucidity = new Object();
+		ionianBootsOfLucidity.addItemBonuses = function() {
+			champ.CDR += 15; // UNIQUE
+			champ.MS += 45;
+		};
+		return ionianBootsOfLucidity;
+	
+	// Kindlegem
+	case "Kindlegem":
+		var kindlegem = new Object();
+		kindlegem.addItemBonuses = function() {
+			champ.CDR += 10; // UNIQUE
+			champ.HP += 200;
+		};
+		return kindlegem;
+	
+	// Kitae's Bloodrazor
+	case "Kitae's Bloodrazor":
+		var kitaesBloodrazor = new Object();
+		kitaesBloodrazor.addItemBonuses = function() {
+			champ.AD += 30;
+			champ.ASbonus += 0.40;
+		};
+		return kitaesBloodrazor;
+	
+	// Last Whisper
+	case "Last Whisper":
+		var lastWhisper = new Object();
+		lastWhisper.addItemBonuses = function() {
+			champ.AD += 40;
+			champ.ArmorPenp += 35;
+		};
+		return lastWhisper;
+	
 	// Long Sword
-	case 'Long Sword':
+	case "Long Sword":
 		var longSword = new Object();
 		longSword.addItemBonuses = function() {
 			champ.AD += 20;
 		};
 		return longSword;
+		
+	// Madred's Razors
+	case "Madred's Razors":
+		var madredsRazors = new Object();
+		madredsRazors.addItemBonuses = function() {
+			champ.Armor += 25;
+			// maim
+		};
+		return madredsRazors;
+	
+	// Mejai's Soulstealer
+	case "Mejai's Soulstealer":
+		var mejaisSoulstealer = new Object();
+		mejaisSoulstealer.addItemBonuses = function() {
+			champ.AP += 20;
+		};
+		return mejaisSoulstealer;
+	
+	// Mercury's Treads
+	case "Mercury's Treads":
+		var mercurysTreads = new Object();
+		mercurysTreads.addItemBonuses = function() {
+			champ.MR += 25;
+			champ.MS += 45;
+		};
+		return mercurysTreads;
+		
+	// Needlessly Large Rod
+	case "Needlessly Large Rod":
+		var needlesslyLargeRod = new Object();
+		needlesslyLargeRod.addItemBonuses = function() {
+			champ.AP += 80;
+		};
+		return needlesslyLargeRod;
+		
+	// Ninja Tabi
+	case "Ninja Tabi":
+		var ninjaTabi = new Object();
+		ninjaTabi.addItemBonuses = function() {
+			champ.Armor += 25;
+			champ.MS += 45;
+		};
+		return ninjaTabi;
+	
+	// Nomad's Medallion
+	case "Nomad's Medallion":
+		var nomadsMedallion = new Object();
+		nomadsMedallion.addItemBonuses = function() {
+			champ.HP5 += 8;
+			champ.MP5 += 11;
+		};
+		return nomadsMedallion;
+		
+	// Null-Magic Mantle
+	case "Null-Magic Mantle":
+		var nullMagicMantle = new Object();
+		nullMagicMantle.addItemBonuses = function() {
+			champ.MR += 20;
+		};
+		return nullMagicMantle;
+		
+	// Orb of Winter
+	case "Orb of Winter":
+		var orbOfWinter = new Object();
+		orbOfWinter.addItemBonuses = function() {
+			champ.MR += 70;
+			champ.HP5 += 20;
+		};
+		return orbOfWinter;
+	
+	// Overlord's Bloodmail
+	case "Overlord's Bloodmail":
+		var overlordsBloodmail = new Object();
+		overlordsBloodmail.addItemBonuses = function() {
+			champ.HP += 850;
+		};
+		return overlordsBloodmail;
+		
+	// Pickaxe
+	case "Pickaxe":
+		var pickaxe = new Object();
+		pickaxe.addItemBonuses = function() {
+			champ.AD += 25;
+		};
+		return pickaxe;
+		
+	// Phage
+	case "Phage":
+		var phage = new Object();
+		phage.addItemBonuses = function() {
+			champ.HP += 200;
+			champ.AD += 20;
+		};
+		return phage;
+	
+	// Prospector's Blade
+	case "Prospector's Blade":
+		var prospectorsBlade = new Object();
+		prospectorsBlade.addItemBonuses = function() {
+			champ.AD += 20;
+			champ.LifeSteal += 5;
+		};
+		return prospectorsBlade;
+		
+	// Prospector's Ring
+	case "Prospector's Ring":
+		var prospectorsRing = new Object();
+		prospectorsRing.addItemBonuses = function() {
+			champ.AP += 40;
+			champ.MP5 += 10;
+		};
+		return prospectorsRing;
+		
+	// Quicksilver Sash
+	case "Quicksilver Sash":
+		var quicksilverSash = new Object();
+		quicksilverSash.addItemBonuses = function() {
+			champ.MR += 45;
+		};
+		return quicksilverSash;
+		
+	// Rabadon's Deathcap
+	case "Rabadon's Deathcap":
+		var rabadonsDeathcap = new Object();
+		rabadonsDeathcap.addItemBonuses = function() {
+			champ.AP += 120;
+		};
+		return rabadonsDeathcap;
+		
+	// Recurve Bow
+	case "Recurve Bow":
+		var recurveBow = new Object();
+		recurveBow.addItemBonuses = function() {
+			champ.ASbonus += 0.30;
+		};
+		return recurveBow;
+		
+	// Rejuvenation Bead
+	case "Rejuvenation Bead":
+		var rejuvenationBead = new Object();
+		rejuvenationBead.addItemBonuses = function() {
+			champ.HP5 += 5;
+		};
+		return rejuvenationBead;
+		
+	// Relic Shield
+	case "Relic Shield":
+		var relicShield = new Object();
+		relicShield.addItemBonuses = function() {
+			champ.HP += 50;
+			champ.HP5 += 6;
+		};
+		return relicShield;
+		
+	// Ruby Crystal
+	case "Ruby Crystal":
+		var rubyCrystal = new Object();
+		rubyCrystal.addItemBonuses = function() {
+			champ.HP += 180;
+		};
+		return rubyCrystal;
+	
+	// Runaan's Hurricane
+	case "Runaan's Hurricane":
+		var runannsHurricane = new Object();
+		runannsHurricane.addItemBonuses = function() {
+			champ.ASbonus += 0.70;
+		};
+		return runannsHurricane;
+	
+	// Rylai's Crystal Scepter
+	case "Rylai's Crystal Scepter":
+		var rylaisCrystalScepter = new Object();
+		rylaisCrystalScepter.addItemBonuses = function() {
+			champ.HP += 500;
+			champ.AP += 80;
+		};
+		return rylaisCrystalScepter;
+	
+	// Sapphire Crystal
+	case "Sapphire Crystal":
+		var sapphireCrystal = new Object();
+		sapphireCrystal.addItemBonuses = function() {
+			champ.MP += 200;
+		};
+		return sapphireCrystal;
+		
+	// Seeker's Armguard
+	case "Seeker's Armguard":
+		var seekersArmguard = new Object();
+		seekersArmguard.addItemBonuses = function() {
+			champ.Armor += 30;
+			champ.AP += 20;
+		};
+		return seekersArmguard;
+	
+	// Sheen
+	case "Sheen":
+		var sheen = new Object();
+		sheen.addItemBonuses = function() {
+			champ.Mana += 200;
+			champ.AP += 25;
+		};
+		return sheen;
+	
+	// Sightstone
+	case "Sightstone":
+		var sightstone = new Object();
+		sightstone.addItemBonuses = function() {
+			champ.HP += 180;
+		};
+		return sightstone;
+	
+	// Sorcerer's Shoes
+	case "Sorcerer's Shoes":
+		var sorcerersShoes = new Object();
+		sorcerersShoes.addItemBonuses = function() {
+			champ.MagicPen += 15;
+			champ.MS += 45;
+		};
+		return sorcerersShoes;
+		
+	// Spectre's Cowl
+	case "Spectre's Cowl":
+		var spectresCowl = new Object();
+		spectresCowl.addItemBonuses = function() {
+			champ.HP += 200;
+			champ.MR += 45;
+		};
+		return spectresCowl;
+		
+	// Spellthief's Edge
+	case "Spellthief's Edge":
+		var spellthiefsEdge = new Object();
+		spellthiefsEdge.addItemBonuses = function() {
+			champ.AP += 10;
+			champ.MP5 += 3;
+		};
+		return spellthiefsEdge;
+		
+	// Spirit Stone
+	case "Spirit Stone":
+		var spiritStone = new Object();
+		spiritStone.addItemBonuses = function() {
+			champ.HP5 += 14;
+			champ.MP5 += 7;
+		};
+		return spiritStone;
+	
+	// Stinger
+	case "Stinger":
+		var stinger = new Object();
+		stinger.addItemBonuses = function() {
+			champ.ASbonus += 0.40;
+		};
+		return stinger;
+	
+	// Sunfire Cape
+	
+	// Sword of the Divine
+	
+	// Sword of the Occult
+	
+	// Targon's Brace
+	
+	// Tear of the Goddess
+	
+	// Thornmail
+	
+	// Tiamat
+	
+	// Vampiric Scepter
+	
+	// Void Staff
+	
+	// Warden's Mail
+	
+	// Warmog's Armor
+	
+	// Wit's End
+	
+	// Zeal
 		
 	default:
 		var empty = new Object();
