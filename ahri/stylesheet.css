@@ -48,58 +48,61 @@ a:visited {
 }
 
 #champinfo {
-margin: 40px 16px 0 16px;
+    margin: 40px 16px 0 16px;
+}
+
+#updateButton:hover {
+    cursor: pointer;
+    opacity: 0.6;
 }
 
 .tabs {
-text-align: center;
+    text-align: center;
 }
 
 .tabs ul {
-padding: 0px;
-margin: 0px;
-margin-left: 10px;
-list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    margin-left: 10px;
+    list-style-type: none;
 }
 
 .tabs ul li {
-display: inline-block;
-clear: none;
-float: left;
-height: 24px;
+    display: inline-block;
+    clear: none;
+    float: left;
+    height: 24px;
 }
 
 .tabs ul li a {
-position: relative;
-margin-top: 16px;
-display: block;
-margin-left: 6px;
-line-height: 24px;
-padding-left: 0px;
-padding-top: 7px;
-padding-bottom: 7px;
-background: #EDF1FA;
-z-index: 9999;
-border: 1px solid #ccc;
-opacity: 0.5;
-
-/* The following four lines are to make the top left and top right corners of each tab rounded. */
--moz-border-radius-topleft: 4px;
-border-top-left-radius: 4px;
--moz-border-radius-topright: 4px;
-border-top-right-radius: 4px;
-/* end of rounded borders */
-
-width: 242px;
-color: #000000;
-text-decoration: none;
-font-weight: bold;
+    position: relative;
+    margin-top: 16px;
+    display: block;
+    margin-left: 6px;
+    line-height: 24px;
+    padding-left: 0px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background: #EDF1FA;
+    z-index: 9999;
+    border: 1px solid #ccc;
+    opacity: 0.5;
+    /* The following four lines are to make the top left and top right corners of each tab rounded. */
+    -moz-border-radius-topleft: 4px;
+    border-top-left-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    border-top-right-radius: 4px;
+    /* end of rounded borders */
+    width: 242px;
+    color: #000000;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .tabs ul li a:hover {
-cursor: pointer;
-opacity: 0.6;
-/* a very simple effect when hovering the mouse on tab */
+    cursor: pointer;
+    opacity: 0.6;
+    /* a very simple effect when hovering the mouse on tab */
 }
 
 .tabs ul li.active a {
@@ -108,23 +111,23 @@ opacity: 0.6;
 	line-height: 25px;
 }
 
-.tabs #Content_Area { 
-/* this is the css class for the content displayed in each tab */
-margin: 0 15px 0 16px;
-padding: 0 15px 0 15px;
-clear:both;
-line-height:19px;
-position: relative;
-top: 31px;
-z-index: 1;
-height: 250px;
-background: #EDF1FA;
-border: 1px solid #ccc;
-box-shadow: 0px 0px 1px #ccc;
+.tabs #Content_Area {
+    /* this is the css class for the content displayed in each tab */
+    margin: 0 15px 0 16px;
+    padding: 0 15px 0 15px;
+    clear: both;
+    line-height: 19px;
+    position: relative;
+    top: 31px;
+    z-index: 1;
+    height: 250px;
+    background: #EDF1FA;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 1px #ccc;
 }
 
 #mainStats {
-  margin: 20px auto;
+    margin: 20px auto;
 	width: 900px;
 }
 
@@ -136,6 +139,7 @@ box-shadow: 0px 0px 1px #ccc;
 #mainStats tr td {
 	text-align: center;
 	font-size: 17px;
+    vertical-align: top;
 }
 
 .bonusStats p {
@@ -143,8 +147,8 @@ box-shadow: 0px 0px 1px #ccc;
 }
 
 #tab4 table {
-  margin: 50px auto;
-	width: 900px;
+    margin: 50px auto;
+    width: 900px;
 }
 
 #itemResetButton {

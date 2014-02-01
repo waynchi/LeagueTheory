@@ -1,8 +1,24 @@
 $(document).ready(function() {
-	updateStats(1); // write initial stats onto page
+	// updateStatsCaller(); // write initial stats onto page
 	tab('tab1'); // switch to first tab
 });
 
+function updateStatsCaller() {
+    var levelList = document.getElementById("champLevel");
+    var champLevel = levelList.options[levelList.selectedIndex].text;
+    var xmlhttp=new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function()
+    {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            document.getElementById("mainStats").innerHTML=xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET","updateStats.php?champLevel="+champLevel,true);
+    xmlhttp.send();
+}
+
+/**
 // Create itemList with 6 empty items
 itemList = [];
 for (var i = 0; i < 6; i++)
@@ -895,22 +911,15 @@ function updateItemList(item, num) {
 	var levelList = document.getElementById("champLevel");
 	var champLevel = levelList.options[levelList.selectedIndex].text;
 	updateStats(champLevel);
-}
+} **/
 
 function resetItems() {
-	for (var i = 0; i < 6; i++)
-		itemList.pop();
-	for (var i = 0; i < 6; i++)
-		itemList.push(createItem());
 	$('#item1').val('None');
 	$('#item2').val('None');
 	$('#item3').val('None');
 	$('#item4').val('None');
 	$('#item5').val('None');
 	$('#item6').val('None');
-	var levelList = document.getElementById("champLevel");
-	var champLevel = levelList.options[levelList.selectedIndex].text;
-	updateStats(champLevel);
 }
 
 function tab(tab) {

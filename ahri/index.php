@@ -14,7 +14,7 @@
 		<a href="http://www.waynechi.com"><div ID="header">LeagueTheory</div></a>
 		<!-- Champion Information -->
 		<div ID="champinfo">
-			<img src="http://www.waynechi.com/pictures/Ahri.png" style="display: inline-block;box-shadow:0px 0px 3px black;">
+			<img alt="Ahri" src="http://www.waynechi.com/pictures/Ahri.png" style="display: inline-block;box-shadow:0px 0px 3px black;">
 			<div style="display:inline-block;width:300px;top:-30px;position:relative;margin-left:35px;">
 				<p style="font-size:40px;margin:0;"><b>Ahri</b></p>
 				<p style="font-size:30px;margin:0;">the Nine-Tailed Fox</p>
@@ -22,7 +22,7 @@
 			<!-- Champion Level Drop-down List -->
 			<div style="display:inline-block;top:-30px;position:relative;font-size:20px">Champion Level: 
 				<form action=""style="display:inline-block">
-					<select name="aa" ID="champLevel" onchange="updateStats(this.value)">
+					<select name="cl" ID="champLevel">
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
@@ -44,6 +44,10 @@
 					</select>
 				</form>
 			</div>
+			<!-- Update Stats Button -->
+			<div id="updateButton" style="display:inline-block;top:-30px;left:100px;position:relative;font-size:30px;background-color:orange;padding:5px;border-radius:5px;" onclick="updateStatsCaller()">
+				Update Stats
+			</div>
 		</div>
 		<table id="mainStats">
 			<tr>
@@ -51,7 +55,7 @@
 				<th	colspan="3">Defensive</th>
 				<th	colspan="3">Magical</th>
 			</tr>
-			<tr valign="top">
+			<tr>
 				<td> 
 					<p>Armor Reduction (flat)</p>
 					<p>Armor Reduction (%)</p>
@@ -169,42 +173,42 @@
 				<div id="tab4" style="display: none;">
 					<table>
 						<tr>
-							<td><form>Item 1 <select id="item1" onchange="updateItemList(this.value, 1)">
+							<td><form>Item 1 <select id="item1">
 								<option>None</option>
 								<option>Amplifying Tome</option>
 								<option>Ancient Coin</option>
 								<option>B.F. Sword</option>
 								<option>Long Sword</option>
 							</select></form></td>
-							<td><form>Item 2 <select id="item2" onchange="updateItemList(this.value, 2)">
+							<td><form>Item 2 <select id="item2">
 								<option>None</option>
 								<option>Amplifying Tome</option>
 								<option>Ancient Coin</option>
 								<option>B.F. Sword</option>
 								<option>Long Sword</option>
 							</select></form></td>
-							<td><form>Item 3 <select id="item3" onchange="updateItemList(this.value, 3)">
+							<td><form>Item 3 <select id="item3">
 								<option>None</option>
 								<option>Amplifying Tome</option>
 								<option>Ancient Coin</option>
 								<option>B.F. Sword</option>
 								<option>Long Sword</option>
 							</select></form></td>
-							<td><form>Item 4 <select id="item4" onchange="updateItemList(this.value, 4)">
+							<td><form>Item 4 <select id="item4">
 								<option>None</option>
 								<option>Amplifying Tome</option>
 								<option>Ancient Coin</option>
 								<option>B.F. Sword</option>
 								<option>Long Sword</option>
 							</select></form></td>
-							<td><form>Item 5 <select id="item5" onchange="updateItemList(this.value, 5)">
+							<td><form>Item 5 <select id="item5">
 								<option>None</option>
 								<option>Amplifying Tome</option>
 								<option>Ancient Coin</option>
 								<option>B.F. Sword</option>
 								<option>Long Sword</option>
 							</select></form></td>
-							<td><form>Item 6 <select id="item6" onchange="updateItemList(this.value, 6)">
+							<td><form>Item 6 <select id="item6">
 								<option>None</option>
 								<option>Amplifying Tome</option>
 								<option>Ancient Coin</option>
