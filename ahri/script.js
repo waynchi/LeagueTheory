@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	// updateStatsCaller(); // write initial stats onto page
+	updateStatsCaller(); // write initial stats onto page
 	tab('tab1'); // switch to first tab
 });
 
