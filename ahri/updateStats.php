@@ -1,6 +1,10 @@
 <?php
+// Get data from HTML request
 $champLevel = $_REQUEST["champLevel"]; 
+$items = $_REQUEST["items"];
 
+// Create array that contains champion basic statistics
+// Will need to change for each champion/Retrieve from database
 $champBaseStats = array(
     'HP' => 380,
     'HP_l' => 80,
@@ -21,6 +25,7 @@ $champBaseStats = array(
     'MS' => 330
 );
 
+// Contains current statistics for champion
 $champ = array(
     'ArmorRed' => 0,
     'ArmorRedp' => 0, // percentage
@@ -50,6 +55,7 @@ $champ = array(
     'SpellVamp' => 0
 );
 
+// Calculates base statistics from champion level
 $champ['ArmorRed'] = 0;
 $champ['ArmorRedp'] = 0;
 $champ['ArmorPen'] = 0;
@@ -77,6 +83,11 @@ $champ['MP'] = $champBaseStats['MP'] + $champBaseStats['MP_l'] * ($champLevel-1)
 $champ['MP5'] = $champBaseStats['MP5'] + $champBaseStats['MP5_l'] * ($champLevel-1);
 $champ['SpellVamp'] = 0;
 
+// Creates a copy of champion basic stats
+$champInitial = $champ;
+
+
+
 echo 
     '<tr>
         <th colspan="3">Offensive</th>
@@ -97,7 +108,7 @@ echo
 			<p>Movement Speed</p>
 		</td>
 		<td>
-			<p ID="ArmorRed">' . $champ['ArmorRed'] . '</p>
+			<p ID="ArmorRed">' . $items[5] . '</p>
 			<p ID="ArmorRedp">' . $champ['ArmorRedp'] . '%</p>
 			<p ID="ArmorPen">' . $champ['ArmorPen'] . '</p>
 			<p ID="ArmorPenp">' . $champ['ArmorPenp'] . '%</p>

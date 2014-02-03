@@ -4,8 +4,22 @@ $(document).ready(function() {
 });
 
 function updateStatsCaller() {
+    // Get champ level selection from page
     var levelList = document.getElementById("champLevel");
     var champLevel = levelList.options[levelList.selectedIndex].text;
+    // Get item list selection from page
+    var itemArray = Array();
+    for (var i = 1; i <= 6; i++) {
+        var itemFormID = "item" + i;
+        var itemForm = document.getElementById(itemFormID);
+        itemArray.push(itemForm.options[itemForm.selectedIndex].text);
+    }
+    // Create string for data appended to PHP request
+    var data = "?champLevel=" + champLevel;
+    for (var i = 0; i < 6; i++) {
+        data += "&items[]=" + itemArray[i];
+    }
+    // Call php file
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function()
     {
@@ -14,7 +28,7 @@ function updateStatsCaller() {
             document.getElementById("mainStats").innerHTML=xmlhttp.responseText;
         }
     }
-    xmlhttp.open("GET","updateStats.php?champLevel="+champLevel,true);
+    xmlhttp.open("POST","updateStats.php"+data,true);
     xmlhttp.send();
 }
 
