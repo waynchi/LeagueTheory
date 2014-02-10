@@ -3,26 +3,33 @@
 $champLevel = $_REQUEST["champLevel"]; 
 $items = $_REQUEST["items"];
 
+$champRef = 'https://prod.api.pvp.net/api/lol/static-data/na/v1/champion/ahri?api_key=9f9c9f7d-0def-4082-b66d-7134dc73b58c';
+$name = champRef.name;
+$title = champRef.title;
+$statsRef = champRef.stats;
+$imageRef = champRef.images;
 // Create array that contains champion basic statistics
 // Will need to change for each champion/Retrieve from database
+
+
 $champBaseStats = array(
-    'HP' => 380,
-    'HP_l' => 80,
-    'HP5' => 5.5,
-    'HP5_l' => 0.6,
-    'MP' => 250,
-    'MP_l' => 50,
-    'MP5' => 7,
-    'MP5_l' => 0.6,
-    'AD' => 50,
-    'AD_l' => 3,
-    'AS' => 0.668,
-    'AS_l' => 0.02, // percentage
-    'Armor' => 11,
-    'Armor_l' => 3.5,
-    'MR' => 30,
-    'MR_l' => 0,
-    'MS' => 330
+    'HP' => $statsRef.hp,
+    'HP_l' => $statsRef.hpperlevel,
+    'HP5' => $statsRef.hpregen,
+    'HP5_l' => $statsRef.hpregenperlevel,
+    'MP' => $statsRef.mp,
+    'MP_l' => $statsRef.mpperlevel,
+    'MP5' => $statsRef.mpregen,
+    'MP5_l' => $statsRef.mpregenperlevel,
+    'AD' => $statsRef.attackdamage,
+    'AD_l' => $statsRef.attackdamageperlevel,
+    'AS' => $statsRef.attackspeed,
+    'AS_l' => $statsRef.attackspeedperlevel, // percentage
+    'Armor' => $statsRef.armor,
+    'Armor_l' => $statsRef.armorperlevel,
+    'MR' => $statsRef.spellblock,
+    'MR_l' => $statsRef.spellblockperlevel,
+    'MS' => movespeed
 );
 
 // Contains current statistics for champion
@@ -87,7 +94,7 @@ $champ['SpellVamp'] = 0;
 $champInitial = $champ;
 
 
-
+getChampionInfo();
 echo 
     '<tr>
         <th colspan="3">Offensive</th>
