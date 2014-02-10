@@ -14,7 +14,7 @@
 		<a href="http://www.waynechi.com"><div ID="header">LeagueTheory</div></a>
 		<!-- Champion Information -->
 		<div ID="champinfo">
-			<img alt="Ahri" src="http://www.waynechi.com/pictures/Ahri.png" style="display: inline-block;box-shadow:0px 0px 3px black;">
+			<img id = champImage alt="Ahri" src="http://www.waynechi.com/pictures/Ahri.png" style="display: inline-block;box-shadow:0px 0px 3px black;">
 			<div style="display:inline-block;width:300px;top:-30px;position:relative;margin-left:35px;">
 				<p style="font-size:40px;margin:0;"><b>Ahri</b></p>
 				<p style="font-size:30px;margin:0;">the Nine-Tailed Fox</p>
