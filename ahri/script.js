@@ -1,20 +1,9 @@
 
 
 $(document).ready(function() {
-	getChampionInfo();
 	updateStatsCaller(); // write initial stats onto page
 	tab('tab1'); // switch to first tab
 });
-
-function getChampionInfo() {
-	//Gets Champion Information
-	console.log("test");
-	var name = champRef.name;
-        var title = champRef.title;
-        var statsRef = champRef.stats;
-        var imageRef = champRef.images;
-        
-}
 
 function updateStatsCaller() {
     // Get champ level selection from page
