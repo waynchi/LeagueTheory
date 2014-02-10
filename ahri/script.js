@@ -19,7 +19,7 @@ function updateStatsCaller() {
     for (var i = 0; i < 6; i++) {
         data += "&items[]=" + itemArray[i];
     }
-    // Call php file
+    // Call PHP file
     var xmlhttp=new XMLHttpRequest();
     xmlhttp.onreadystatechange=function()
     {

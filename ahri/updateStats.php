@@ -1,4 +1,6 @@
 <?php
+include 'itemStats.php';
+
 // Get data from HTML request
 $champLevel = $_REQUEST["champLevel"]; 
 $items = $_REQUEST["items"];
@@ -86,6 +88,45 @@ $champ['SpellVamp'] = 0;
 // Creates a copy of champion basic stats
 $champInitial = $champ;
 
+// Add item bonus stats
+/*for ($i = 0; i < 6; i++)
+{
+	switch($items[i])
+	{
+		case "Abyssal Scepter":
+			$champ["AP"] += 70;
+			$champ["MR"] += 45;
+			// UNIQUE Aura: Reduces the Magic Resist of nearby enemies by 20.
+			break;
+		case "Aegis of the Legion":
+			$champ["HP"] += 200;
+			$champ["Armor"] += 20;
+			// UNIQUE Aura - Legion: Grants nearby allies +20 Magic Resist and +10 Health Regen per 5 seconds.
+			break;
+		case "Amplifying Tome":
+			$champ["AP"] += 20;
+			break;
+		case "Ancient Coin":
+			$champ["HP5"] += 5;
+			$champ["MP5"] += 3;
+			// UNIQUE Passive - Favor: Being near a minion death without dealing the killing blow grants 2 Gold.
+			break;
+		case "Archangel's Staff"
+			$champ["MP"] += 250;
+			$champ["AP"] += 60;
+			$champ["MP5"] += 10;
+			// UNIQUE Passive - Insight: Grants Ability Power equal to 3% of maximum Mana.
+			// UNIQUE Passive - Mana Charge: Grants +8 maximum Mana (max +750 Mana) for each spell cast and Mana expenditure (occurs up to 2 times every 8 seconds). Transforms into Seraph's Embrace at +750 Mana.
+			break;
+		case "Archangel's Staff (Crystal Scar)"
+			$champ["MP"] += 250;
+			$champ["AP"] += 60;
+			$champ["MP5"] += 10;
+			// UNIQUE Passive - Insight: Grants Ability Power equal to 3% of maximum Mana.
+			// UNIQUE Passive - Mana Charge: Grants +10 maximum Mana (max +750 Mana) for each spell cast and Mana expenditure (occurs up to 2 times every 6 seconds). Transforms into Seraph's Embrace at +750 Mana.
+			break;
+	}
+}*/
 
 
 echo 
@@ -108,7 +149,7 @@ echo
 			<p>Movement Speed</p>
 		</td>
 		<td>
-			<p ID="ArmorRed">' . $items[5] . '</p>
+			<p ID="ArmorRed">' . $itemStats['data']['1001']['stats']['FlatMovementSpeedMod'] . '</p>
 			<p ID="ArmorRedp">' . $champ['ArmorRedp'] . '%</p>
 			<p ID="ArmorPen">' . $champ['ArmorPen'] . '</p>
 			<p ID="ArmorPenp">' . $champ['ArmorPenp'] . '%</p>
