@@ -17,6 +17,7 @@ $items = $_REQUEST["items"];
 
 $ch = curl_init("https://prod.api.pvp.net/api/lol/static-data/na/v1/champion/103?champData=all&api_key=9f9c9f7d-0def-4082-b66d-7134dc73b58c");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 $champRefJSON = curl_exec($ch);
 $champRef = json_decode($champRefJSON, true);
 
@@ -114,6 +115,9 @@ $champ['SpellVamp'] = 0;
 // Creates a copy of champion basic stats
 $champInitial = $champ;
 
+// Accessing itemStats example
+// $itemStats['data']['1001']['stats']['FlatMovementSpeedMod']
+
 // Add item bonus stats
 /*for ($i = 0; i < 6; i++)
 {
@@ -176,7 +180,7 @@ echo
 			<p>Movement Speed</p>
 		</td>
 		<td>
-			<p ID="ArmorRed">' . $itemStats['data']['1001']['stats']['FlatMovementSpeedMod'] . '</p>
+			<p ID="ArmorRed">' . $champ['ArmorRed'] . '</p>
 			<p ID="ArmorRedp">' . $champ['ArmorRedp'] . '%</p>
 			<p ID="ArmorPen">' . $champ['ArmorPen'] . '</p>
 			<p ID="ArmorPenp">' . $champ['ArmorPenp'] . '%</p>
