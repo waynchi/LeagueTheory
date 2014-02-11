@@ -19,14 +19,18 @@ $ch = curl_init("https://prod.api.pvp.net/api/lol/static-data/na/v1/champion/103
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $champRefJSON = curl_exec($ch);
 $champRef = json_decode($champRefJSON, true);
-// echo $champRef['stats'];
 
 $name = $champRef['name'];
 $title = $champRef['title'];
 $statsRef = $champRef['stats'];
 $imageRef = $champRef['image'];
-// Create array that contains champion basic statistics
-// Will need to change for each champion/Retrieve from database
+
+// $url = 'https://prod.api.pvp.net/api/lol/static-data/na/v1/champion/ahri?api_key=9f9c9f7d-0def-4082-b66d-7134dc73b58c';
+// $champRef = json_decode(file_get_contents($url));
+// $name = champRef.name;
+// $title = champRef.title;
+// $statsRef = champRef.stats;
+// $imageRef = champRef.images;
 
 
 $champBaseStats = array(
