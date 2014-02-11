@@ -1,9 +1,11 @@
 <?php
+
 // Get data from HTML request
 $champLevel = $_REQUEST["champLevel"]; 
 $items = $_REQUEST["items"];
 
-$champRef = 'https://prod.api.pvp.net/api/lol/static-data/na/v1/champion/ahri?api_key=9f9c9f7d-0def-4082-b66d-7134dc73b58c';
+$url = 'https://prod.api.pvp.net/api/lol/static-data/na/v1/champion/ahri?api_key=9f9c9f7d-0def-4082-b66d-7134dc73b58c';
+$champRef = json_decode(file_get_contents($url));
 $name = champRef.name;
 $title = champRef.title;
 $statsRef = champRef.stats;
