@@ -1,26 +1,59 @@
 <?php
-$champLevel = $_REQUEST["champLevel"]; 
+include 'itemStats.php';
+
+function debug_to_console( $data ) {
+
+    if ( is_array( $data ) )
+        $output = "<script>console.log( 'Debug Objects: " . implode( ',', $data) . "' );</script>";
+    else
+        $output = "<script>console.log( 'Debug Objects: " . $data . "' );</script>";
+
+    echo $output;
+};
+
+// Get data from HTML request
+$champLevel = $_REQUEST["champLevel"];
+$items = $_REQUEST["items"];
+
+$ch = curl_init("https://prod.api.pvp.net/api/lol/static-data/na/v1/champion/103?champData=all&api_key=9f9c9f7d-0def-4082-b66d-7134dc73b58c");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$champRefJSON = curl_exec($ch);
+$champRef = json_decode($champRefJSON, true);
+
+$name = $champRef['name'];
+$title = $champRef['title'];
+$statsRef = $champRef['stats'];
+$imageRef = $champRef['image'];
+
+// $url = 'https://prod.api.pvp.net/api/lol/static-data/na/v1/champion/ahri?api_key=9f9c9f7d-0def-4082-b66d-7134dc73b58c';
+// $champRef = json_decode(file_get_contents($url));
+// $name = champRef.name;
+// $title = champRef.title;
+// $statsRef = champRef.stats;
+// $imageRef = champRef.images;
+
 
 $champBaseStats = array(
-    'HP' => 380,
-    'HP_l' => 80,
-    'HP5' => 5.5,
-    'HP5_l' => 0.6,
-    'MP' => 250,
-    'MP_l' => 50,
-    'MP5' => 7,
-    'MP5_l' => 0.6,
-    'AD' => 50,
-    'AD_l' => 3,
-    'AS' => 0.668,
-    'AS_l' => 0.02, // percentage
-    'Armor' => 11,
-    'Armor_l' => 3.5,
-    'MR' => 30,
-    'MR_l' => 0,
-    'MS' => 330
+    'HP' => $statsRef['hp'],
+    'HP_l' => $statsRef['hpperlevel'],
+    'HP5' => $statsRef['hpregen'],
+    'HP5_l' => $statsRef['hpregenperlevel'],
+    'MP' => $statsRef['mp'],
+    'MP_l' => $statsRef['mpperlevel'],
+    'MP5' => $statsRef['mpregen'],
+    'MP5_l' => $statsRef['mpregenperlevel'],
+    'AD' => $statsRef['attackdamage'],
+    'AD_l' => $statsRef['attackdamageperlevel'],
+    'ASoffset' => $statsRef['attackspeedoffset'],
+    'AS_l' => $statsRef['attackspeedperlevel'], // percentage
+    'Armor' => $statsRef['armor'],
+    'Armor_l' => $statsRef['armorperlevel'],
+    'MR' => $statsRef['spellblock'],
+    'MR_l' => $statsRef['spellblockperlevel'],
+    'MS' => $statsRef['movespeed']
 );
 
+// Contains current statistics for champion
 $champ = array(
     'ArmorRed' => 0,
     'ArmorRedp' => 0, // percentage
@@ -50,12 +83,13 @@ $champ = array(
     'SpellVamp' => 0
 );
 
+// Calculates base statistics from champion level
 $champ['ArmorRed'] = 0;
 $champ['ArmorRedp'] = 0;
 $champ['ArmorPen'] = 0;
 $champ['ArmorPenp'] = 0;
 $champ['AD'] = $champBaseStats['AD'] + $champBaseStats['AD_l'] * $champLevel;
-$champ['AS'] = $champBaseStats['AS'] + $champBaseStats['AS_l'] * $champLevel;
+$champ['AS'] = 0.625 / (1 - $champBaseStats['ASoffset']) * (1 + $champBaseStats['AS_l'] * $champLevel / 100);
 $champ['ASbonus'] = 0;
 $champ['CritChance'] = 0;
 $champ['CritDamage'] = 100;
@@ -77,6 +111,51 @@ $champ['MP'] = $champBaseStats['MP'] + $champBaseStats['MP_l'] * ($champLevel-1)
 $champ['MP5'] = $champBaseStats['MP5'] + $champBaseStats['MP5_l'] * ($champLevel-1);
 $champ['SpellVamp'] = 0;
 
+// Creates a copy of champion basic stats
+$champInitial = $champ;
+
+// Add item bonus stats
+/*for ($i = 0; i < 6; i++)
+{
+	switch($items[i])
+	{
+		case "Abyssal Scepter":
+			$champ["AP"] += 70;
+			$champ["MR"] += 45;
+			// UNIQUE Aura: Reduces the Magic Resist of nearby enemies by 20.
+			break;
+		case "Aegis of the Legion":
+			$champ["HP"] += 200;
+			$champ["Armor"] += 20;
+			// UNIQUE Aura - Legion: Grants nearby allies +20 Magic Resist and +10 Health Regen per 5 seconds.
+			break;
+		case "Amplifying Tome":
+			$champ["AP"] += 20;
+			break;
+		case "Ancient Coin":
+			$champ["HP5"] += 5;
+			$champ["MP5"] += 3;
+			// UNIQUE Passive - Favor: Being near a minion death without dealing the killing blow grants 2 Gold.
+			break;
+		case "Archangel's Staff"
+			$champ["MP"] += 250;
+			$champ["AP"] += 60;
+			$champ["MP5"] += 10;
+			// UNIQUE Passive - Insight: Grants Ability Power equal to 3% of maximum Mana.
+			// UNIQUE Passive - Mana Charge: Grants +8 maximum Mana (max +750 Mana) for each spell cast and Mana expenditure (occurs up to 2 times every 8 seconds). Transforms into Seraph's Embrace at +750 Mana.
+			break;
+		case "Archangel's Staff (Crystal Scar)"
+			$champ["MP"] += 250;
+			$champ["AP"] += 60;
+			$champ["MP5"] += 10;
+			// UNIQUE Passive - Insight: Grants Ability Power equal to 3% of maximum Mana.
+			// UNIQUE Passive - Mana Charge: Grants +10 maximum Mana (max +750 Mana) for each spell cast and Mana expenditure (occurs up to 2 times every 6 seconds). Transforms into Seraph's Embrace at +750 Mana.
+			break;
+	}
+}*/
+
+//getChampionInfo();
+
 echo 
     '<tr>
         <th colspan="3">Offensive</th>
@@ -97,12 +176,12 @@ echo
 			<p>Movement Speed</p>
 		</td>
 		<td>
-			<p ID="ArmorRed">' . $champ['ArmorRed'] . '</p>
+			<p ID="ArmorRed">' . $itemStats['data']['1001']['stats']['FlatMovementSpeedMod'] . '</p>
 			<p ID="ArmorRedp">' . $champ['ArmorRedp'] . '%</p>
 			<p ID="ArmorPen">' . $champ['ArmorPen'] . '</p>
 			<p ID="ArmorPenp">' . $champ['ArmorPenp'] . '%</p>
 			<p ID="AD">' . $champ['AD'] . '</p>
-			<p ID="AS">' . $champ['AS'] . '</p>
+			<p ID="AS">' . round($champ['AS'], 3) . '</p>
 			<p ID="CritChance">' . $champ['CritChance'] . '</p>
 			<p ID="CritDamage">' . $champ['CritDamage'] . '</p>
 			<p ID="LifeSteal">' . $champ['LifeSteal'] . '</p>
@@ -177,5 +256,8 @@ echo
 			<p ID="MP5Bonus">(+0)</p>
 			<p ID="SpellVampBonus">(+0)</p>
 		</td>
-	</tr>'
+	</tr>';
+
+curl_close($ch); // close session
+
 ?>
