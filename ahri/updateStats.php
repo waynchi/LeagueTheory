@@ -1,37 +1,52 @@
 <?php
 include 'itemStats.php';
 
+function debug_to_console( $data ) {
+
+    if ( is_array( $data ) )
+        $output = "<script>console.log( 'Debug Objects: " . implode( ',', $data) . "' );</script>";
+    else
+        $output = "<script>console.log( 'Debug Objects: " . $data . "' );</script>";
+
+    echo $output;
+};
+
 // Get data from HTML request
-$champLevel = $_REQUEST["champLevel"]; 
+$champLevel = $_REQUEST["champLevel"];
 $items = $_REQUEST["items"];
 
-$champRef = 'https://prod.api.pvp.net/api/lol/static-data/na/v1/champion/ahri?api_key=9f9c9f7d-0def-4082-b66d-7134dc73b58c';
-$name = champRef.name;
-$title = champRef.title;
-$statsRef = champRef.stats;
-$imageRef = champRef.images;
+$ch = curl_init("https://prod.api.pvp.net/api/lol/static-data/na/v1/champion/103?champData=all&api_key=9f9c9f7d-0def-4082-b66d-7134dc73b58c");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$champRefJSON = curl_exec($ch);
+$champRef = json_decode($champRefJSON, true);
+// echo $champRef['stats'];
+
+$name = $champRef['name'];
+$title = $champRef['title'];
+$statsRef = $champRef['stats'];
+$imageRef = $champRef['image'];
 // Create array that contains champion basic statistics
 // Will need to change for each champion/Retrieve from database
 
 
 $champBaseStats = array(
-    'HP' => $statsRef.hp,
-    'HP_l' => $statsRef.hpperlevel,
-    'HP5' => $statsRef.hpregen,
-    'HP5_l' => $statsRef.hpregenperlevel,
-    'MP' => $statsRef.mp,
-    'MP_l' => $statsRef.mpperlevel,
-    'MP5' => $statsRef.mpregen,
-    'MP5_l' => $statsRef.mpregenperlevel,
-    'AD' => $statsRef.attackdamage,
-    'AD_l' => $statsRef.attackdamageperlevel,
-    'AS' => $statsRef.attackspeed,
-    'AS_l' => $statsRef.attackspeedperlevel, // percentage
-    'Armor' => $statsRef.armor,
-    'Armor_l' => $statsRef.armorperlevel,
-    'MR' => $statsRef.spellblock,
-    'MR_l' => $statsRef.spellblockperlevel,
-    'MS' => movespeed
+    'HP' => $statsRef['hp'],
+    'HP_l' => $statsRef['hpperlevel'],
+    'HP5' => $statsRef['hpregen'],
+    'HP5_l' => $statsRef['hpregenperlevel'],
+    'MP' => $statsRef['mp'],
+    'MP_l' => $statsRef['mpperlevel'],
+    'MP5' => $statsRef['mpregen'],
+    'MP5_l' => $statsRef['mpregenperlevel'],
+    'AD' => $statsRef['attackdamage'],
+    'AD_l' => $statsRef['attackdamageperlevel'],
+    'ASoffset' => $statsRef['attackspeedoffset'],
+    'AS_l' => $statsRef['attackspeedperlevel'], // percentage
+    'Armor' => $statsRef['armor'],
+    'Armor_l' => $statsRef['armorperlevel'],
+    'MR' => $statsRef['spellblock'],
+    'MR_l' => $statsRef['spellblockperlevel'],
+    'MS' => $statsRef['movespeed']
 );
 
 // Contains current statistics for champion
@@ -70,7 +85,7 @@ $champ['ArmorRedp'] = 0;
 $champ['ArmorPen'] = 0;
 $champ['ArmorPenp'] = 0;
 $champ['AD'] = $champBaseStats['AD'] + $champBaseStats['AD_l'] * $champLevel;
-$champ['AS'] = $champBaseStats['AS'] + $champBaseStats['AS_l'] * $champLevel;
+$champ['AS'] = 0.625 / (1 - $champBaseStats['ASoffset']) * (1 + $champBaseStats['AS_l'] * $champLevel / 100);
 $champ['ASbonus'] = 0;
 $champ['CritChance'] = 0;
 $champ['CritDamage'] = 100;
@@ -135,7 +150,8 @@ $champInitial = $champ;
 	}
 }*/
 
-getChampionInfo();
+//getChampionInfo();
+
 echo 
     '<tr>
         <th colspan="3">Offensive</th>
@@ -161,7 +177,7 @@ echo
 			<p ID="ArmorPen">' . $champ['ArmorPen'] . '</p>
 			<p ID="ArmorPenp">' . $champ['ArmorPenp'] . '%</p>
 			<p ID="AD">' . $champ['AD'] . '</p>
-			<p ID="AS">' . $champ['AS'] . '</p>
+			<p ID="AS">' . round($champ['AS'], 3) . '</p>
 			<p ID="CritChance">' . $champ['CritChance'] . '</p>
 			<p ID="CritDamage">' . $champ['CritDamage'] . '</p>
 			<p ID="LifeSteal">' . $champ['LifeSteal'] . '</p>
@@ -236,5 +252,8 @@ echo
 			<p ID="MP5Bonus">(+0)</p>
 			<p ID="SpellVampBonus">(+0)</p>
 		</td>
-	</tr>'
+	</tr>';
+
+curl_close($ch); // close session
+
 ?>
