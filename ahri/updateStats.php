@@ -15,6 +15,7 @@ function debug_to_console( $data ) {
 $champLevel = $_REQUEST["champLevel"];
 $items = $_REQUEST["items"];
 
+// ahri id = 103
 $ch = curl_init("https://prod.api.pvp.net/api/lol/static-data/na/v1/champion/103?champData=all&api_key=9f9c9f7d-0def-4082-b66d-7134dc73b58c");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -33,27 +34,6 @@ $imageRef = $champRef['image'];
 // $statsRef = champRef.stats;
 // $imageRef = champRef.images;
 
-
-$champBaseStats = array(
-    'HP' => $statsRef['hp'],
-    'HP_l' => $statsRef['hpperlevel'],
-    'HP5' => $statsRef['hpregen'],
-    'HP5_l' => $statsRef['hpregenperlevel'],
-    'MP' => $statsRef['mp'],
-    'MP_l' => $statsRef['mpperlevel'],
-    'MP5' => $statsRef['mpregen'],
-    'MP5_l' => $statsRef['mpregenperlevel'],
-    'AD' => $statsRef['attackdamage'],
-    'AD_l' => $statsRef['attackdamageperlevel'],
-    'ASoffset' => $statsRef['attackspeedoffset'],
-    'AS_l' => $statsRef['attackspeedperlevel'], // percentage
-    'Armor' => $statsRef['armor'],
-    'Armor_l' => $statsRef['armorperlevel'],
-    'MR' => $statsRef['spellblock'],
-    'MR_l' => $statsRef['spellblockperlevel'],
-    'MS' => $statsRef['movespeed']
-);
-
 // Contains current statistics for champion
 $champ = array(
     'ArmorRed' => 0,
@@ -61,7 +41,7 @@ $champ = array(
     'ArmorPen' => 0,
     'ArmorPenp' => 0, // percentage
     'AD' => 0,
-    'AS' => 0,
+    'AS' => 0, // 0.625/(1-ASoffset)
     'ASbonus' => 0,
     'CritChance' => 0,
     'CritDamange' => 0,
@@ -89,17 +69,17 @@ $champ['ArmorRed'] = 0;
 $champ['ArmorRedp'] = 0;
 $champ['ArmorPen'] = 0;
 $champ['ArmorPenp'] = 0;
-$champ['AD'] = $champBaseStats['AD'] + $champBaseStats['AD_l'] * $champLevel;
-$champ['AS'] = 0.625 / (1 - $champBaseStats['ASoffset']) * (1 + $champBaseStats['AS_l'] * $champLevel / 100);
+$champ['AD'] = $statsRef['attackdamage'] + $statsRef['attackdamageperlevel'] * $champLevel;
+$champ['AS'] = 0.625 / (1 - $statsRef['attackspeedoffset']) * (1 + $statsRef['attackspeedperlevel'] * $champLevel / 100);
 $champ['ASbonus'] = 0;
 $champ['CritChance'] = 0;
 $champ['CritDamage'] = 100;
 $champ['LifeSteal'] = 0;
-$champ['MS'] = $champBaseStats['MS'];
-$champ['Armor'] = $champBaseStats['Armor'] + $champBaseStats['Armor_l'] * $champLevel;
-$champ['HP'] = $champBaseStats['HP'] + $champBaseStats['HP_l'] * $champLevel;
-$champ['HP5'] = $champBaseStats['HP5'] + $champBaseStats['HP5_l'] * $champLevel;
-$champ['MR'] = $champBaseStats['MR'] + $champBaseStats['MR_l'] * $champLevel;
+$champ['MS'] = $statsRef['movespeed'];
+$champ['Armor'] = $statsRef['armor'] + $statsRef['armorperlevel'] * $champLevel;
+$champ['HP'] = $statsRef['hp'] + $statsRef['hpperlevel'] * $champLevel;
+$champ['HP5'] = $statsRef['hpregen'] + $statsRef['hpregenperlevel'] * $champLevel;
+$champ['MR'] = $statsRef['spellblock'] + $statsRef['spellblockperlevel'] * $champLevel;
 $champ['PEHP'] = $champ['HP'] * (1 + $champ['Armor']/100);
 $champ['MEHP'] = $champ['HP'] * (1 + $champ['MR']/100);
 $champ['AP'] = 0;
@@ -108,18 +88,128 @@ $champ['MagicRed'] = 0;
 $champ['MagicRedp'] = 0;
 $champ['MagicPen'] = 0;
 $champ['MagicPenp'] = 0;
-$champ['MP'] = $champBaseStats['MP'] + $champBaseStats['MP_l'] * ($champLevel-1);
-$champ['MP5'] = $champBaseStats['MP5'] + $champBaseStats['MP5_l'] * ($champLevel-1);
+$champ['MP'] = $statsRef['mp'] + $statsRef['mpperlevel'] * ($champLevel-1);
+$champ['MP5'] = $statsRef['mpregen'] + $statsRef['mpregenperlevel'] * ($champLevel-1);
 $champ['SpellVamp'] = 0;
 
-// Creates a copy of champion basic stats
+// Creates a copy of champion basic stats (before bonuses)
 $champInitial = $champ;
+
+$statMods = array(
+	'FlatArmorMod' => 0,
+	'FlatAttackSpeedMod' => 0,
+	'FlatBlockMod' => 0,
+	'FlatCritChanceMod' => 0,
+	'FlatCritDamageMod' => 0,
+	'FlatEXPBonus' => 0,
+	'FlatEnergyPoolMod' => 0,
+	'FlatEnergyRegenMod' => 0,
+	'FlatHPPoolMod' => 0,
+	'FlatHPRegenMod' => 0,
+	'FlatMPPoolMod' => 0,
+	'FlatMPRegenMod' => 0,
+	'FlatMagicDamageMod' => 0,
+	'FlatMovementSpeedMod' => 0,
+	'FlatPhysicalDamageMod' => 0,
+	'FlatSpellBlockMod' => 0,
+	'PercentArmorMod' => 0,
+	'PercentAttackSpeedMod' => 0,
+	'PercentBlockMod' => 0,
+	'PercentCritChanceMod' => 0,
+	'PercentCritDamageMod' => 0,
+	'PercentDodgeMod' => 0,
+	'PercentEXPBonus' => 0,
+	'PercentHPPoolMod' => 0,
+	'PercentHPRegenMod' => 0,
+	'PercentLifeStealMod' => 0,
+	'PercentMPPoolMod' => 0,
+	'PercentMPRegenMod' => 0,
+	'PercentMagicDamageMod' => 0,
+	'PercentMovementSpeedMod' => 0,
+	'PercentPhysicalDamageMod' => 0,
+	'PercentSpellBlockMod' => 0,
+	'PercentSpellVampMod' => 0,
+	'rFlatArmorModPerLevel' => 0,
+	'rFlatArmorPenetrationMod' => 0,
+	'rFlatCritChanceModPerLevel' => 0,
+	'rFlatCritDamageModPerLevel' => 0,
+	'rFlatDodgeMod' => 0,
+	'rFlatDodgeModPerLevel' => 0,
+	'rFlatEnergyModPerLevel' => 0,
+	'rFlatEnergyRegenModPerLevel' => 0,
+	'rFlatGoldPer10Mod' => 0,
+	'rFlatHPModPerLevel' => 0,
+	'rFlatHPRegenModPerLevel' => 0,
+	'rFlatMPModPerLevel' => 0,
+	'rFlatMPRegenModPerLevel' => 0,
+	'rFlatMagicDamageModPerLevel' => 0,
+	'rFlatMagicPenetrationMod' => 0,
+	'rFlatMagicPenetrationModPerLevel' => 0,
+	'rFlatMovementSpeedModPerLevel' => 0,
+	'rFlatPhysicalDamageModPerLevel' => 0,
+	'rFlatSpellBlockModPerLevel' => 0,
+	'rFlatTimeDeadMod' => 0,
+	'rFlatTimeDeadModPerLevel' => 0,
+	'rPercentArmorPenetrationMod' => 0,
+	'rPercentArmorPenetrationModPerLevel' => 0,
+	'rPercentAttackSpeedModPerLevel' => 0,
+	'rPercentCooldownMod' => 0,
+	'rPercentCooldownModPerLevel' => 0,
+	'rPercentMagicPenetrationMod' => 0,
+	'rPercentMagicPenetrationModPerLevel' => 0,
+	'rPercentMovementSpeedModPerLevel' => 0,
+	'rPercentTimeDeadMod' => 0,
+	'rPercentTimeDeadModPerLevel' => 0,
+);
 
 // Accessing itemStats example
 // $itemStats['data']['1001']['stats']['FlatMovementSpeedMod']
 
+for ($i = 0; $i < 6; $i++)
+{
+	foreach ($itemStats['data'] as $value)
+		if ($items[$i] == $value['name'])
+		{
+			$itemStatsArrayKeys = array_keys($value['stats']);
+			foreach ($itemStatsArrayKeys as $arrayKey)
+				$statMods[$arrayKey] += $value['stats'][$arrayKey];
+			break;
+		}
+}
+
+
+// Updates stats according to $statMods
+$champ['ArmorRed'] = 0; // not working
+$champ['ArmorRedp'] = 0; // not working
+$champ['ArmorPen'] = 0; // not working
+$champ['ArmorPenp'] = 0; // not working
+$champ['AD'] = (($statsRef['attackdamage'] + $statsRef['attackdamageperlevel'] * $champLevel) + $statMods['FlatPhysicalDamageMod']) * (1+$statMods['PercentPhysicalDamageMod']);
+$champ['AS'] = 0.625 / (1 - $statsRef['attackspeedoffset'] + $statMods['FlatAttackSpeedMod']) * (1 + $statsRef['attackspeedperlevel'] * $champLevel / 100 + $statMods['PercentAttackSpeedMod']);
+$champ['CritChance'] = $statMods['FlatCritChanceMod'] * (1+$statMods['PercentCritChanceMod']) * 100;
+$champ['CritDamage'] = (100 + $statMods['FlatCritDamageMod']) * (1+$statMods['PercentCritDamageMod']);
+$champ['LifeSteal'] = $statMods['PercentLifeStealMod'] * 100;
+$champ['MS'] = ($statsRef['movespeed'] + $statMods['FlatMovementSpeedMod']) * (1+$statMods['PercentMovementSpeedMod']);
+$champ['Armor'] = ($statsRef['armor'] + $statsRef['armorperlevel'] * $champLevel + $statMods['FlatArmorMod']) * (1+$statMods['PercentArmorMod']);
+$champ['HP'] = ($statsRef['hp'] + $statsRef['hpperlevel'] * $champLevel + $statMods['FlatHPPoolMod']) * (1+$statMods['PercentHPPoolMod']);
+$champ['HP5'] = ($statsRef['hpregen'] + $statsRef['hpregenperlevel'] * $champLevel + $statMods['FlatHPRegenMod']) * (1+$statMods['PercentHPRegenMod']);
+$champ['MR'] = ($statsRef['spellblock'] + $statsRef['spellblockperlevel'] * $champLevel + $statMods['FlatSpellBlockMod']) * (1+$statMods['PercentSpellBlockMod']);
+$champ['PEHP'] = $champ['HP'] * (1 + $champ['Armor']/100);
+$champ['MEHP'] = $champ['HP'] * (1 + $champ['MR']/100);
+$champ['AP'] = $statMods['FlatMagicDamageMod'] * (1+$statMods['PercentMagicDamageMod']);
+$champ['CDR'] = $statMods['rPercentCooldownMod']; // not working
+$champ['MagicRed'] = 0; // not working
+$champ['MagicRedp'] = 0; // not working
+$champ['MagicPen'] = 0; // not working
+$champ['MagicPenp'] = 0; // not working
+$champ['MP'] = ($statsRef['mp'] + $statsRef['mpperlevel'] * ($champLevel-1) + $statMods['FlatMPPoolMod']) * (1+$statMods['PercentMPPoolMod']);
+$champ['MP5'] = ($statsRef['mpregen'] + $statsRef['mpregenperlevel'] * ($champLevel-1) + $statMods['FlatMPRegenMod']) * (1+$statMods['PercentMPRegenMod']);
+$champ['SpellVamp'] = $statMods['PercentSpellVampMod'];
+
+
+// var_dump($statMods); // testing
+
 // Add item bonus stats
-/*for ($i = 0; i < 6; i++)
+/*for ($i = 0; i < 6; $i++)
 {
 	switch($items[i])
 	{
@@ -186,30 +276,30 @@ echo
 			<p ID="ArmorPenp">' . $champ['ArmorPenp'] . '%</p>
 			<p ID="AD">' . $champ['AD'] . '</p>
 			<p ID="AS">' . round($champ['AS'], 3) . '</p>
-			<p ID="CritChance">' . $champ['CritChance'] . '</p>
-			<p ID="CritDamage">' . $champ['CritDamage'] . '</p>
-			<p ID="LifeSteal">' . $champ['LifeSteal'] . '</p>
+			<p ID="CritChance">' . $champ['CritChance'] . '%</p>
+			<p ID="CritDamage">+' . $champ['CritDamage'] . '%</p>
+			<p ID="LifeSteal">' . $champ['LifeSteal'] . '%</p>
 			<p ID="MoveSpeed">' . $champ['MS'] . '</p>
 		</td>
 		<td class="bonusStats">
-			<p ID="ArmorRedBonus">(+0)</p>
-			<p ID="ArmorRedpBonus">(+0%)</p>
-			<p ID="ArmorPenBonus">(+0)</p>
-			<p ID="ArmorPenpBonus">(+0%)</p>
-			<p ID="ADBonus">(+0)</p>
-			<p ID="ASBonus">(+0)</p>
-			<p ID="CritChanceBonus">(+0)</p>
-			<p ID="CritDamageBonus">(+0)</p>
-			<p ID="LifeStealBonus">(+0)</p>
-			<p ID="MoveSpeedBonus">(+0)</p>
+			<p ID="ArmorRedBonus">(+' . ($champ['ArmorRed'] - $champInitial['ArmorRed']) . ')</p>
+			<p ID="ArmorRedpBonus">(+' . ($champ['ArmorRedp'] - $champInitial['ArmorRedp']) . '%)</p>
+			<p ID="ArmorPenBonus">(+' . ($champ['ArmorPen'] - $champInitial['ArmorPen']) . ')</p>
+			<p ID="ArmorPenpBonus">(+' . ($champ['ArmorPenp'] - $champInitial['ArmorPenp']) . '%)</p>
+			<p ID="ADBonus">(+' . ($champ['AD'] - $champInitial['AD']) . ')</p>
+			<p ID="ASBonus">(+' . round($champ['AS'] - $champInitial['AS'], 3) . ')</p>
+			<p ID="CritChanceBonus">(+' . ($champ['CritChance'] - $champInitial['CritChance']) . '%)</p>
+			<p ID="CritDamageBonus">(+' . ($champ['CritDamage'] - $champInitial['CritDamage']) . '%)</p>
+			<p ID="LifeStealBonus">(+' . ($champ['LifeSteal'] - $champInitial['LifeSteal']) . '%)</p>
+			<p ID="MoveSpeedBonus">(+' . ($champ['MS'] - $champInitial['MS']) . ')</p>
 		</td>
 		<td>
 			<p>Armor</p>
 			<p>Health</p>
-			<p>Health Regeneration / 5</p>
+			<p>Health Regen / 5</p>
 			<p>Magic Resistance</p>
-			<p>Physical Effective HP</p>
-			<p>Magical Effective HP</p>
+			<p>Physical EHP</p>
+			<p>Magical EHP</p>
 		</td>
 		<td>
 			<p ID="Armor">' . $champ['Armor'] . '</p>
@@ -220,12 +310,12 @@ echo
 			<p ID="MEHP">' . $champ['MEHP'] . '</p>
 		</td>
 		<td class="bonusStats">
-			<p ID="ArmorBonus">(+0)</p>
-			<p ID="HPBonus">(+0)</p>
-			<p ID="HP5Bonus">(+0)</p>
-			<p ID="MRBonus">(+0)</p>
-			<p ID="PEHP">(+0)</p>
-			<p ID="MEHP">(+0)</p>
+			<p ID="ArmorBonus">(+' . ($champ['Armor'] - $champInitial['Armor']) . ')</p>
+			<p ID="HPBonus">(+' . ($champ['HP'] - $champInitial['HP']) . ')</p>
+			<p ID="HP5Bonus">(+' . ($champ['HP5'] - $champInitial['HP5']) . ')</p>
+			<p ID="MRBonus">(+' . ($champ['MR'] - $champInitial['MR']) . ')</p>
+			<p ID="PEHP">(+' . ($champ['PEHP'] - $champInitial['PEHP']) . ')</p>
+			<p ID="MEHP">(+' . ($champ['MEHP'] - $champInitial['MEHP']) . ')</p>
 		</td>
 		<td>
 			<p>Ability Power</p>
@@ -250,15 +340,15 @@ echo
 			<p ID="SpellVamp">' . $champ['SpellVamp'] . '</p>
 		</td>
 		<td class="bonusStats">
-			<p ID="APBonus">(+0)</p>
-			<p ID="CDRBonus">(+0)</p>
-			<p ID="MagicRedBonus">(+0)</p>
-			<p ID="MagicRedpBonus">(+0%)</p>
-			<p ID="MagicPenBonus">(+0)</p>
-			<p ID="MagicPenpBonus">(+0%)</p>
-			<p ID="MPBonus">(+0)</p>
-			<p ID="MP5Bonus">(+0)</p>
-			<p ID="SpellVampBonus">(+0)</p>
+			<p ID="APBonus">(+' . ($champ['AP'] - $champInitial['AP']) . ')</p>
+			<p ID="CDRBonus">(+' . ($champ['CDR'] - $champInitial['CDR']) . ')</p>
+			<p ID="MagicRedBonus">(+' . ($champ['MagicRed'] - $champInitial['MagicRed']) . ')</p>
+			<p ID="MagicRedpBonus">(+' . ($champ['MagicRedp'] - $champInitial['MagicRedp']) . '%)</p>
+			<p ID="MagicPenBonus">(+' . ($champ['MagicPen'] - $champInitial['MagicPen']) . ')</p>
+			<p ID="MagicPenpBonus">(+' . ($champ['MagicPenp'] - $champInitial['MagicPenp']) . '%)</p>
+			<p ID="MPBonus">(+' . ($champ['MP'] - $champInitial['MP']) . ')</p>
+			<p ID="MP5Bonus">(+' . ($champ['MP5'] - $champInitial['MP5']) . ')</p>
+			<p ID="SpellVampBonus">(+' . ($champ['SpellVamp'] - $champInitial['SpellVamp']) . ')</p>
 		</td>
 	</tr>';
 
