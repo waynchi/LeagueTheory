@@ -27,13 +27,6 @@ $title = $champRef['title'];
 $statsRef = $champRef['stats'];
 $imageRef = $champRef['image'];
 
-// $url = 'https://prod.api.pvp.net/api/lol/static-data/na/v1/champion/ahri?api_key=9f9c9f7d-0def-4082-b66d-7134dc73b58c';
-// $champRef = json_decode(file_get_contents($url));
-// $name = champRef.name;
-// $title = champRef.title;
-// $statsRef = champRef.stats;
-// $imageRef = champRef.images;
-
 // Contains current statistics for champion
 $champ = array(
     'ArmorRed' => 0,
@@ -207,46 +200,6 @@ $champ['SpellVamp'] = $statMods['PercentSpellVampMod'];
 
 
 // var_dump($statMods); // testing
-
-// Add item bonus stats
-/*for ($i = 0; i < 6; $i++)
-{
-	switch($items[i])
-	{
-		case "Abyssal Scepter":
-			$champ["AP"] += 70;
-			$champ["MR"] += 45;
-			// UNIQUE Aura: Reduces the Magic Resist of nearby enemies by 20.
-			break;
-		case "Aegis of the Legion":
-			$champ["HP"] += 200;
-			$champ["Armor"] += 20;
-			// UNIQUE Aura - Legion: Grants nearby allies +20 Magic Resist and +10 Health Regen per 5 seconds.
-			break;
-		case "Amplifying Tome":
-			$champ["AP"] += 20;
-			break;
-		case "Ancient Coin":
-			$champ["HP5"] += 5;
-			$champ["MP5"] += 3;
-			// UNIQUE Passive - Favor: Being near a minion death without dealing the killing blow grants 2 Gold.
-			break;
-		case "Archangel's Staff"
-			$champ["MP"] += 250;
-			$champ["AP"] += 60;
-			$champ["MP5"] += 10;
-			// UNIQUE Passive - Insight: Grants Ability Power equal to 3% of maximum Mana.
-			// UNIQUE Passive - Mana Charge: Grants +8 maximum Mana (max +750 Mana) for each spell cast and Mana expenditure (occurs up to 2 times every 8 seconds). Transforms into Seraph's Embrace at +750 Mana.
-			break;
-		case "Archangel's Staff (Crystal Scar)"
-			$champ["MP"] += 250;
-			$champ["AP"] += 60;
-			$champ["MP5"] += 10;
-			// UNIQUE Passive - Insight: Grants Ability Power equal to 3% of maximum Mana.
-			// UNIQUE Passive - Mana Charge: Grants +10 maximum Mana (max +750 Mana) for each spell cast and Mana expenditure (occurs up to 2 times every 6 seconds). Transforms into Seraph's Embrace at +750 Mana.
-			break;
-	}
-}*/
 
 //getChampionInfo();
 
