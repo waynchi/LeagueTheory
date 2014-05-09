@@ -1,5 +1,5 @@
 body {
-	background-color: #536895;
+	background-color: #081724;
 	color: black;
 	font-family: calibri, serif;
 	padding: 0;
@@ -27,7 +27,7 @@ a:visited {
 	
 #header {
 	height: 100px;
-	background: linear-gradient(to bottom, #A1B9ED, #FFFFFF);
+	background: linear-gradient(to bottom, #589494, #FFFFFF);
 	/* background-color: #990000; */
 	border-bottom: 1px solid black;
 	font-size: 60px;
